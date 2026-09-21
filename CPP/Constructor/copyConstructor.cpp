@@ -6,13 +6,14 @@ class Reactangle{
     public:
     Reactangle(int a, int b){
         l = a;
-        b = b;
+        this->b = b;
         cout<<"Constructor called\n";
     }
 
-    Reactangle(Reactangle &r){
-        l=r.l;
-        b=r.b;
+    Reactangle(const Reactangle &r1){
+        // cout<<"Copy is running\n";
+        l=r1.l;
+        b=r1.b;
     }
 
     void showarea(){
@@ -21,10 +22,10 @@ class Reactangle{
 };
 
 int main(){
-    Reactangle r1(10,20);
-    r1.showarea();
+    Reactangle r(10,20);
+    r.showarea();
 
-    Reactangle r2(r1);
+    Reactangle r2(r);
     r2.showarea();
     
     return 0;
