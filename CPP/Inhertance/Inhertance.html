@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C++ Inheritance and Polymorphism - Master Notes</title>
+  <style>
+    :root {
+      --bg-primary: #0d1117;
+      --bg-secondary: #161b22;
+      --bg-tertiary: #21262d;
+      --text-main: #e6edf3;
+      --text-muted: #8b949e;
+      --accent-blue: #58a6ff;
+      --accent-green: #3fb950;
+      --accent-purple: #bc8cff;
+      --accent-orange: #d29922;
+      --accent-red: #f85149;
+      --accent-cyan: #39c5cf;
+      --border-color: #30363d;
+      --code-bg: #090d13;
+      --sidebar-width: 280px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      line-height: 1.65;
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    #sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--bg-secondary);
+      border-right: 1px solid var(--border-color);
+      position: fixed;
+      top: 0; bottom: 0; left: 0;
+      overflow-y: auto;
+      padding: 24px 16px;
+      z-index: 100;
+    }
+    #sidebar h2 {
+      font-size: 1.15rem;
+      color: var(--accent-blue);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    #sidebar ul { list-style: none; }
+    #sidebar li { margin-bottom: 6px; }
+    #sidebar a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      display: block;
+      padding: 6px 10px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+    #sidebar a:hover, #sidebar a.active {
+      background-color: var(--bg-tertiary);
+      color: var(--accent-blue);
+    }
+    #main-content {
+      margin-left: var(--sidebar-width);
+      padding: 40px 60px 100px 60px;
+      max-width: 1100px;
+      width: calc(100% - var(--sidebar-width));
+    }
+    header.header {
+      margin-bottom: 40px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 24px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 20px;
+      background: rgba(88, 166, 255, 0.15);
+      color: var(--accent-blue);
+      border: 1px solid rgba(88, 166, 255, 0.3);
+      margin-bottom: 12px;
+    }
+    h1 { font-size: 2.5rem; color: #fff; margin-bottom: 12px; }
+    .subtitle { font-size: 1.1rem; color: var(--text-muted); }
+    section { margin-bottom: 50px; scroll-margin-top: 30px; }
+    h2 {
+      font-size: 1.6rem;
+      color: #fff;
+      margin-bottom: 18px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    h3 { font-size: 1.25rem; color: var(--accent-cyan); margin: 24px 0 12px 0; }
+    p { margin-bottom: 14px; color: #c9d1d9; }
+    ul, ol { margin-left: 24px; margin-bottom: 16px; color: #c9d1d9; }
+    li { margin-bottom: 6px; }
+    code {
+      font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 0.88em;
+      background-color: rgba(110, 118, 129, 0.2);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #f0883e;
+    }
+    pre {
+      background-color: var(--code-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 18px;
+      overflow-x: auto;
+      margin: 14px 0 20px 0;
+    }
+    pre code { background: none; padding: 0; color: #e6edf3; font-size: 0.9rem; }
+    .c-kw { color: #ff7b72; font-weight: 600; }
+    .c-type { color: #79c0ff; }
+    .c-str { color: #a5d6ff; }
+    .c-num { color: #79c0ff; }
+    .c-com { color: #8b949e; font-style: italic; }
+    .c-fn { color: #d2a8ff; }
+    .callout {
+      border-left: 4px solid;
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      margin: 18px 0;
+      background-color: var(--bg-secondary);
+    }
+    .callout-info { border-color: var(--accent-blue); background-color: rgba(88, 166, 255, 0.08); }
+    .callout-tip { border-color: var(--accent-green); background-color: rgba(63, 185, 80, 0.08); }
+    .callout-warning { border-color: var(--accent-orange); background-color: rgba(210, 153, 34, 0.08); }
+    .callout-danger { border-color: var(--accent-red); background-color: rgba(248, 81, 73, 0.08); }
+    .callout-header { font-weight: 600; margin-bottom: 6px; }
+    .callout-info .callout-header { color: var(--accent-blue); }
+    .callout-tip .callout-header { color: var(--accent-green); }
+    .callout-warning .callout-header { color: var(--accent-orange); }
+    .callout-danger .callout-header { color: var(--accent-red); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background-color: var(--bg-secondary);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+    th, td { padding: 12px 16px; border-bottom: 1px solid var(--border-color); font-size: 0.9rem; }
+    th { background-color: var(--bg-tertiary); color: #fff; }
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .card {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 18px;
+    }
+    .card-title { font-size: 1.1rem; font-weight: 600; color: var(--accent-blue); margin-bottom: 8px; }
+    @media (max-width: 900px) {
+      body { flex-direction: column; }
+      #sidebar { position: relative; width: 100%; height: auto; }
+      #main-content { margin-left: 0; width: 100%; padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <nav id="sidebar">
+    <h2>📑 Inheritance Contents</h2>
+    <ul>
+      <li><a href="#intro">1. Principles of Inheritance</a></li>
+      <li><a href="#visibility-modes">2. Visibility Modes (3x3 Matrix)</a></li>
+      <li><a href="#types">3. Types of Inheritance</a></li>
+      <li><a href="#ambiguity">4. Multiple Inheritance &amp; Ambiguity</a></li>
+      <li><a href="#diamond">5. The Diamond Problem &amp; Virtual Base</a></li>
+      <li><a href="#constructor-order">6. Constructor &amp; Destructor Order</a></li>
+      <li><a href="#polymorphism">7. Virtual Functions &amp; Dynamic Binding</a></li>
+      <li><a href="#modern">8. `override` &amp; `final` Specifiers</a></li>
+    </ul>
+  </nav>
+
+  <main id="main-content">
+    <header class="header">
+      <span class="badge">Object-Oriented C++</span>
+      <h1>Inheritance and Polymorphism in C++</h1>
+      <p class="subtitle">Complete guide covering base/derived relationships, access modes, multiple &amp; hybrid inheritance, diamond problem resolution, virtual base classes, and runtime polymorphism.</p>
+    </header>
+
+    <section id="intro">
+      <h2>1. Principles of Inheritance</h2>
+      <p><strong>Inheritance</strong> is an OOP mechanism allowing a new class (the <strong>Derived Class</strong>) to inherit attributes and behaviors from an existing class (the <strong>Base Class</strong>), modeling an <em>IS-A</em> relationship.</p>
+      <ul>
+        <li><strong>Base Class:</strong> The parent/superclass being inherited from.</li>
+        <li><strong>Derived Class:</strong> The child/subclass extending the base class.</li>
+      </ul>
+      <pre><code><span class="c-kw">class</span> <span class="c-type">Vehicle</span> {
+<span class="c-kw">public:</span>
+    <span class="c-type">std::string</span> brand = <span class="c-str">"Ford"</span>;
+    <span class="c-kw">void</span> <span class="c-fn">honk</span>() { <span class="c-type">std::cout</span> &lt;&lt; <span class="c-str">"Beep!\n"</span>; }
+};
+
+<span class="c-com">// Derived class inheriting publicly from Vehicle</span>
+<span class="c-kw">class</span> <span class="c-type">Car</span> : <span class="c-kw">public</span> <span class="c-type">Vehicle</span> {
+<span class="c-kw">public:</span>
+    <span class="c-type">std::string</span> model = <span class="c-str">"Mustang"</span>;
+};
+</code></pre>
+    </section>
+
+    <section id="visibility-modes">
+      <h2>2. Visibility Modes (3x3 Matrix)</h2>
+      <p>The derivation mode (<code>public</code>, <code>protected</code>, or <code>private</code>) controls the accessibility of base class members inside the derived class and to external callers.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Base Member Access</th>
+            <th>Derived Mode: <code>public</code></th>
+            <th>Derived Mode: <code>protected</code></th>
+            <th>Derived Mode: <code>private</code></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong><code>public</code></strong></td>
+            <td>Stays <code>public</code></td>
+            <td>Becomes <code>protected</code></td>
+            <td>Becomes <code>private</code></td>
+          </tr>
+          <tr>
+            <td><strong><code>protected</code></strong></td>
+            <td>Stays <code>protected</code></td>
+            <td>Stays <code>protected</code></td>
+            <td>Becomes <code>private</code></td>
+          </tr>
+          <tr>
+            <td><strong><code>private</code></strong></td>
+            <td><em>Hidden (Not Inherited)</em></td>
+            <td><em>Hidden (Not Inherited)</em></td>
+            <td><em>Hidden (Not Inherited)</em></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout callout-info">
+        <div class="callout-header">📌 Rule of Thumb</div>
+        <p>Use <strong><code>public</code></strong> inheritance 99% of the time to represent true <em>IS-A</em> polymorphism. Use <code>private</code> inheritance only for composition/implementation details.</p>
+      </div>
+    </section>
+
+    <section id="types">
+      <h2>3. Types of Inheritance</h2>
+      <div class="comparison-grid">
+        <div class="card">
+          <div class="card-title">1. Single Inheritance</div>
+          <p>One derived class inherits directly from one base class: <code>A &larr; B</code></p>
+        </div>
+        <div class="card">
+          <div class="card-title">2. Multilevel Inheritance</div>
+          <p>A chain of inheritance where a derived class acts as a base for another: <code>A &larr; B &larr; C</code></p>
+        </div>
+        <div class="card">
+          <div class="card-title">3. Multiple Inheritance</div>
+          <p>One derived class inherits directly from multiple base classes: <code>(A, B) &larr; C</code></p>
+        </div>
+        <div class="card">
+          <div class="card-title">4. Hierarchical Inheritance</div>
+          <p>Multiple derived classes inherit from a single base class: <code>A &larr; (B, C)</code></p>
+        </div>
+        <div class="card">
+          <div class="card-title">5. Hybrid Inheritance</div>
+          <p>A combination of two or more forms of inheritance (e.g., Multilevel + Multiple).</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="ambiguity">
+      <h2>4. Multiple Inheritance &amp; Ambiguity</h2>
+      <p>When two base classes declare functions with the identical name and signature, calling it from a derived object creates an <strong>ambiguity error</strong>.</p>
+      <pre><code><span class="c-kw">class</span> <span class="c-type">ClassA</span> {
+<span class="c-kw">public:</span>
+    <span class="c-kw">void</span> <span class="c-fn">show</span>() { <span class="c-type">std::cout</span> &lt;&lt; <span class="c-str">"From ClassA\n"</span>; }
+};
+
+<span class="c-kw">class</span> <span class="c-type">ClassB</span> {
+<span class="c-kw">public:</span>
+    <span class="c-kw">void</span> <span class="c-fn">show</span>() { <span class="c-type">std::cout</span> &lt;&lt; <span class="c-str">"From ClassB\n"</span>; }
+};
+
+<span class="c-kw">class</span> <span class="c-type">Derived</span> : <span class="c-kw">public</span> <span class="c-type">ClassA</span>, <span class="c-kw">public</span> <span class="c-type">ClassB</span> {};
+
+<span class="c-kw">int</span> main() {
+    <span class="c-type">Derived</span> d;
+    <span class="c-com">// d.show(); // COMPILE ERROR: Ambiguous call!</span>
+
+    <span class="c-com">// Resolution 1: Scope Resolution Operator</span>
+    d.<span class="c-type">ClassA</span>::<span class="c-fn">show</span>();
+    d.<span class="c-type">ClassB</span>::<span class="c-fn">show</span>();
+}</code></pre>
+    </section>
+
+    <section id="diamond">
+      <h2>5. The Diamond Problem &amp; Virtual Base Classes</h2>
+      <p>Occurs when class <code>D</code> inherits from both <code>B</code> and <code>C</code>, which both inherit from a common base class <code>A</code>.</p>
+      <div class="callout callout-danger">
+        <div class="callout-header">🚨 The Problem</div>
+        <p>Without intervention, object <code>D</code> receives <strong>two separate copies</strong> of class <code>A</code>'s data members! This wastes memory and causes compiler ambiguity.</p>
+      </div>
+
+      <h3>Solution: Virtual Base Classes</h3>
+      <p>By declaring <code>virtual public</code> inheritance in intermediate classes <code>B</code> and <code>C</code>, the compiler ensures that only <strong>one single shared instance</strong> of class <code>A</code> is constructed inside <code>D</code>.</p>
+
+      <pre><code><span class="c-kw">class</span> <span class="c-type">A</span> {
+<span class="c-kw">public:</span>
+    <span class="c-kw">int</span> data = <span class="c-num">100</span>;
+};
+
+<span class="c-com">// Virtual inheritance</span>
+<span class="c-kw">class</span> <span class="c-type">B</span> : <span class="c-kw">virtual public</span> <span class="c-type">A</span> {};
+<span class="c-kw">class</span> <span class="c-type">C</span> : <span class="c-kw">virtual public</span> <span class="c-type">A</span> {};
+
+<span class="c-kw">class</span> <span class="c-type">D</span> : <span class="c-kw">public</span> <span class="c-type">B</span>, <span class="c-kw">public</span> <span class="c-type">C</span> {};
+
+<span class="c-kw">int</span> main() {
+    <span class="c-type">D</span> obj;
+    <span class="c-type">std::cout</span> &lt;&lt; obj.data; <span class="c-com">// Unambiguous and safe! Only 1 copy of A exists.</span>
+}</code></pre>
+    </section>
+
+    <section id="constructor-order">
+      <h2>6. Constructor &amp; Destructor Execution Order</h2>
+      <ul>
+        <li><strong>Constructors:</strong> Base class constructor runs <strong>first</strong>, followed by Derived class constructor.</li>
+        <li><strong>Destructors:</strong> Derived class destructor runs <strong>first</strong>, followed by Base class destructor (exact reverse order).</li>
+      </ul>
+      <pre><code><span class="c-kw">class</span> <span class="c-type">Derived</span> : <span class="c-kw">public</span> <span class="c-type">Base</span> {
+<span class="c-kw">public:</span>
+    <span class="c-com">// Explicitly forwarding parameters to Base constructor:</span>
+    <span class="c-fn">Derived</span>(<span class="c-kw">int</span> x, <span class="c-kw">int</span> y) : <span class="c-fn">Base</span>(x) {
+        <span class="c-com">// Derived constructor body</span>
+    }
+};</code></pre>
+    </section>
+
+    <section id="polymorphism">
+      <h2>7. Virtual Functions &amp; Dynamic Binding</h2>
+      <p>To enable <strong>runtime polymorphism</strong> (allowing a base class pointer to invoke the derived class's overridden method), declare the method as <code>virtual</code> in the base class.</p>
+      <pre><code><span class="c-kw">class</span> <span class="c-type">Shape</span> {
+<span class="c-kw">public:</span>
+    <span class="c-kw">virtual void</span> <span class="c-fn">draw</span>() { <span class="c-type">std::cout</span> &lt;&lt; <span class="c-str">"Drawing generic shape\n"</span>; }
+    <span class="c-kw">virtual</span> ~<span class="c-fn">Shape</span>() = <span class="c-kw">default</span>; <span class="c-com">// ALWAYS declare virtual destructor in polymorphic base!</span>
+};
+
+<span class="c-kw">class</span> <span class="c-type">Circle</span> : <span class="c-kw">public</span> <span class="c-type">Shape</span> {
+<span class="c-kw">public:</span>
+    <span class="c-kw">void</span> <span class="c-fn">draw</span>() <span class="c-kw">override</span> { <span class="c-type">std::cout</span> &lt;&lt; <span class="c-str">"Drawing Circle\n"</span>; }
+};
+
+<span class="c-kw">int</span> main() {
+    <span class="c-type">Shape</span>* s = <span class="c-kw">new</span> <span class="c-type">Circle</span>();
+    s-&gt;<span class="c-fn">draw</span>(); <span class="c-com">// Dynamically dispatches to Circle::draw()!</span>
+    <span class="c-kw">delete</span> s;
+}</code></pre>
+    </section>
+
+    <section id="modern">
+      <h2>8. `override` &amp; `final` Specifiers (C++11)</h2>
+      <ul>
+        <li><code>override</code>: Directs the compiler to verify that the method actually overrides a virtual method in a base class (catches typo errors).</li>
+        <li><code>final</code>: Prohibits a class from being inherited or a virtual function from being overridden further down the hierarchy.</li>
+      </ul>
+      <pre><code><span class="c-kw">class</span> <span class="c-type">LockedClass</span> <span class="c-kw">final</span> {}; <span class="c-com">// Cannot be derived from</span>
+</code></pre>
+    </section>
+
+    <!-- UNIT IV: OPERATOR OVERLOADING & TYPE CONVERSION -->
+    <section id="operator-overloading">
+      <h2>9. Operator Overloading (Unit IV Syllabus)</h2>
+      <p>Operator overloading allows user-defined classes to redefine standard C++ operators (e.g. <code>+</code>, <code>-</code>, <code>++</code>, <code>==</code>) to behave naturally with class objects.</p>
+
+      <div class="comparison-grid">
+        <div class="card">
+          <div class="card-title">Unary Operator Overloading</div>
+          <p>Operates on a single operand (e.g., prefix <code>++</code> or negation <code>-</code>):</p>
+          <pre><code><span class="c-kw">class</span> <span class="c-type">Counter</span> {
+    <span class="c-kw">int</span> count;
+<span class="c-kw">public:</span>
+    <span class="c-fn">Counter</span>(<span class="c-kw">int</span> c = <span class="c-num">0</span>) : count(c) {}
+
+    <span class="c-com">// Overload prefix ++:</span>
+    <span class="c-type">Counter</span>&amp; <span class="c-kw">operator</span>++() {
+        ++count;
+        <span class="c-kw">return</span> *<span class="c-kw">this</span>;
+    }
+};
+
+<span class="c-type">Counter</span> c(<span class="c-num">5</span>);
+++c; <span class="c-com">// Calls c.operator++()</span>
+</code></pre>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Binary Operator Overloading</div>
+          <p>Operates on two operands (left operand invokes method, right is passed as argument):</p>
+          <pre><code><span class="c-kw">class</span> <span class="c-type">Complex</span> {
+    <span class="c-kw">double</span> r, i;
+<span class="c-kw">public:</span>
+    <span class="c-fn">Complex</span>(<span class="c-kw">double</span> real = <span class="c-num">0</span>, <span class="c-kw">double</span> imag = <span class="c-num">0</span>) : r(real), i(imag) {}
+
+    <span class="c-com">// Overload +:</span>
+    <span class="c-type">Complex</span> <span class="c-kw">operator</span>+(<span class="c-kw">const</span> <span class="c-type">Complex</span>&amp; other) <span class="c-kw">const</span> {
+        <span class="c-kw">return</span> <span class="c-type">Complex</span>(r + other.r, i + other.i);
+    }
+};
+
+<span class="c-type">Complex</span> c1(<span class="c-num">2</span>, <span class="c-num">3</span>), c2(<span class="c-num">4</span>, <span class="c-num">5</span>);
+<span class="c-type">Complex</span> c3 = c1 + c2; <span class="c-com">// c1.operator+(c2)</span>
+</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- UNIT V: POLYMORPHISM, EARLY VS LATE BINDING, ABSTRACT CLASSES -->
+    <section id="polymorphism-deep-dive">
+      <h2>10. Early Binding vs Late Binding &amp; Abstract Classes (Unit V Syllabus)</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Early Binding (Static / Compile-Time)</th>
+            <th>Late Binding (Dynamic / Runtime)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Definition</strong></td>
+            <td>Function call resolved at compile time.</td>
+            <td>Function call resolved during program execution at runtime.</td>
+          </tr>
+          <tr>
+            <td><strong>Mechanism</strong></td>
+            <td>Normal member functions, function/operator overloading.</td>
+            <td>Virtual functions invoked through pointers/references.</td>
+          </tr>
+          <tr>
+            <td><strong>Performance</strong></td>
+            <td>Faster (zero indirection overhead).</td>
+            <td>Minor runtime overhead (VPTR &rarr; VTABLE lookup).</td>
+          </tr>
+          <tr>
+            <td><strong>Flexibility</strong></td>
+            <td>Rigid, fixed compile-time decisions.</td>
+            <td>High extensibility and polymorphic behavior.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Abstract Classes &amp; Pure Virtual Functions</h3>
+      <p>A <strong>pure virtual function</strong> is declared with <code>= 0</code>. A class having at least one pure virtual function is an <strong>Abstract Class</strong>; it cannot be instantiated directly and serves purely as an interface for derived classes.</p>
+      <pre><code><span class="c-com">// Abstract Base Class:</span>
+<span class="c-kw">class</span> <span class="c-type">PaymentGateway</span> {
+<span class="c-kw">public:</span>
+    <span class="c-com">// Pure Virtual Function:</span>
+    <span class="c-kw">virtual void</span> <span class="c-fn">pay</span>(<span class="c-kw">double</span> amount) = <span class="c-num">0</span>;
+    <span class="c-kw">virtual</span> ~<span class="c-fn">PaymentGateway</span>() = <span class="c-kw">default</span>;
+};
+
+<span class="c-com">// Concrete Derived Class:</span>
+<span class="c-kw">class</span> <span class="c-type">CreditCardPayment</span> : <span class="c-kw">public</span> <span class="c-type">PaymentGateway</span> {
+<span class="c-kw">public:</span>
+    <span class="c-kw">void</span> <span class="c-fn">pay</span>(<span class="c-kw">double</span> amount) <span class="c-kw">override</span> {
+        <span class="c-type">std::cout</span> &lt;&lt; <span class="c-str">"Processing Credit Card: $"</span> &lt;&lt; amount &lt;&lt; <span class="c-str">'\n'</span>;
+    }
+};
+
+<span class="c-com">// PaymentGateway p; // COMPILE ERROR: Cannot instantiate abstract class!</span>
+<span class="c-type">PaymentGateway</span>* pg = <span class="c-kw">new</span> <span class="c-type">CreditCardPayment</span>();
+pg-&gt;<span class="c-fn">pay</span>(<span class="c-num">150.0</span>); <span class="c-com">// Late binding</span>
+<span class="c-kw">delete</span> pg;
+</code></pre>
+    </section>
+
+    <!-- AGGREGATION AND COMPOSITION -->
+    <section id="aggregation-composition">
+      <h2>11. Aggregation and Composition (Unit IV Syllabus)</h2>
+      <p>While inheritance models <em>IS-A</em>, aggregation and composition model <em>HAS-A</em> associations:</p>
+      <ul>
+        <li><strong>Composition (Part-Of):</strong> Strong ownership. Child lifetime is strictly controlled by parent. (e.g. <code>Car</code> has an <code>Engine</code>; when <code>Car</code> is destroyed, <code>Engine</code> dies).</li>
+        <li><strong>Aggregation (Has-A):</strong> Weak relationship. Child lifetime is independent of parent. (e.g. <code>College</code> aggregates <code>Students</code>; students exist even if college shuts down).</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
+
