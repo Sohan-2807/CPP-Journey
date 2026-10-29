@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C++ Arrays - Comprehensive Master Notes</title>
+  <style>
+    :root {
+      --bg-primary: #0d1117;
+      --bg-secondary: #161b22;
+      --bg-tertiary: #21262d;
+      --text-main: #e6edf3;
+      --text-muted: #8b949e;
+      --accent-blue: #58a6ff;
+      --accent-green: #3fb950;
+      --accent-purple: #bc8cff;
+      --accent-orange: #d29922;
+      --accent-red: #f85149;
+      --accent-cyan: #39c5cf;
+      --border-color: #30363d;
+      --code-bg: #090d13;
+      --sidebar-width: 280px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      line-height: 1.65;
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Sidebar Navigation */
+    #sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--bg-secondary);
+      border-right: 1px solid var(--border-color);
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      overflow-y: auto;
+      padding: 24px 16px;
+      z-index: 100;
+    }
+
+    #sidebar h2 {
+      font-size: 1.15rem;
+      color: var(--accent-blue);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    #sidebar ul {
+      list-style: none;
+    }
+
+    #sidebar li {
+      margin-bottom: 6px;
+    }
+
+    #sidebar a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      display: block;
+      padding: 6px 10px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+
+    #sidebar a:hover, #sidebar a.active {
+      background-color: var(--bg-tertiary);
+      color: var(--accent-blue);
+    }
+
+    /* Main Content */
+    #main-content {
+      margin-left: var(--sidebar-width);
+      padding: 40px 60px 100px 60px;
+      max-width: 1100px;
+      width: calc(100% - var(--sidebar-width));
+    }
+
+    header.header {
+      margin-bottom: 40px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 24px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 20px;
+      background: rgba(88, 166, 255, 0.15);
+      color: var(--accent-blue);
+      border: 1px solid rgba(88, 166, 255, 0.3);
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      color: #fff;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+    }
+
+    /* Section Styles */
+    section {
+      margin-bottom: 50px;
+      scroll-margin-top: 30px;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      color: #fff;
+      margin-bottom: 18px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      color: var(--accent-cyan);
+      margin: 24px 0 12px 0;
+    }
+
+    h4 {
+      font-size: 1.05rem;
+      color: var(--accent-purple);
+      margin: 16px 0 8px 0;
+    }
+
+    p {
+      margin-bottom: 14px;
+      color: #c9d1d9;
+    }
+
+    ul, ol {
+      margin-left: 24px;
+      margin-bottom: 16px;
+      color: #c9d1d9;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    /* Inline Code & Code Blocks */
+    code {
+      font-family: "JetBrains Mono", Consolas, Monaco, "Courier New", monospace;
+      font-size: 0.88em;
+      background-color: rgba(110, 118, 129, 0.2);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #f0883e;
+    }
+
+    pre {
+      background-color: var(--code-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 18px;
+      overflow-x: auto;
+      margin: 14px 0 20px 0;
+      position: relative;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      color: #e6edf3;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      display: block;
+    }
+
+    /* Code Highlighting Palette */
+    .c-kw { color: #ff7b72; font-weight: 600; }       /* Keywords: int, for, if, auto, void, const */
+    .c-type { color: #79c0ff; }                         /* Types: size_t, vector, array, span */
+    .c-str { color: #a5d6ff; }                          /* Strings */
+    .c-num { color: #79c0ff; }                          /* Numbers */
+    .c-com { color: #8b949e; font-style: italic; }      /* Comments */
+    .c-fn { color: #d2a8ff; }                           /* Function names */
+    .c-op { color: #ff7b72; }                           /* Operators */
+    .c-pre { color: #ffa657; }                          /* Preprocessor directives */
+
+    /* Diagrams & Visuals */
+    .memory-diagram {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+      overflow-x: auto;
+    }
+
+    .diagram-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--accent-blue);
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .array-cells {
+      display: flex;
+      gap: 2px;
+      margin-bottom: 8px;
+    }
+
+    .array-cell {
+      border: 2px solid var(--accent-blue);
+      background-color: rgba(88, 166, 255, 0.1);
+      min-width: 90px;
+      text-align: center;
+      padding: 10px 4px;
+      border-radius: 4px;
+      position: relative;
+    }
+
+    .cell-val {
+      font-size: 1.15rem;
+      font-weight: bold;
+      color: #fff;
+      font-family: monospace;
+    }
+
+    .cell-idx {
+      font-size: 0.75rem;
+      color: var(--accent-cyan);
+      margin-top: 4px;
+      font-family: monospace;
+    }
+
+    .cell-addr {
+      font-size: 0.7rem;
+      color: var(--accent-purple);
+      margin-top: 4px;
+      font-family: monospace;
+    }
+
+    /* Callout Boxes */
+    .callout {
+      border-left: 4px solid;
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      margin: 18px 0;
+      background-color: var(--bg-secondary);
+    }
+
+    .callout-info {
+      border-color: var(--accent-blue);
+      background-color: rgba(88, 166, 255, 0.08);
+    }
+
+    .callout-tip {
+      border-color: var(--accent-green);
+      background-color: rgba(63, 185, 80, 0.08);
+    }
+
+    .callout-warning {
+      border-color: var(--accent-orange);
+      background-color: rgba(210, 153, 34, 0.08);
+    }
+
+    .callout-danger {
+      border-color: var(--accent-red);
+      background-color: rgba(248, 81, 73, 0.08);
+    }
+
+    .callout-header {
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .callout-info .callout-header { color: var(--accent-blue); }
+    .callout-tip .callout-header { color: var(--accent-green); }
+    .callout-warning .callout-header { color: var(--accent-orange); }
+    .callout-danger .callout-header { color: var(--accent-red); }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background-color: var(--bg-secondary);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+
+    th, td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.9rem;
+    }
+
+    th {
+      background-color: var(--bg-tertiary);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    tr:hover {
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    /* Grid for quick comparison */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .card {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 18px;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--accent-blue);
+      margin-bottom: 8px;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      body { flex-direction: column; }
+      #sidebar {
+        position: relative;
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+        height: auto;
+      }
+      #main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sidebar Navigation -->
+  <nav id="sidebar">
+    <h2>📑 Array Contents</h2>
+    <ul>
+      <li><a href="#intro">1. Introduction & Memory Layout</a></li>
+      <li><a href="#declaration">2. Declaration & Initialization</a></li>
+      <li><a href="#indexing">3. Indexing & Bounds Safety</a></li>
+      <li><a href="#size">4. Size Calculation & Decay</a></li>
+      <li><a href="#iteration">5. Traversal & Iteration</a></li>
+      <li><a href="#functions">6. Arrays & Functions</a></li>
+      <li><a href="#pointers">7. Arrays & Pointers Deep Dive</a></li>
+      <li><a href="#multidimensional">8. Multidimensional Arrays (2D/3D)</a></li>
+      <li><a href="#dynamic">9. Dynamic Arrays (`new` / `delete[]`)</a></li>
+      <li><a href="#modern-cpp">10. Modern C++ (`std::array`, `vector`, `span`)</a></li>
+      <li><a href="#algorithms">11. Common Algorithms & Operations</a></li>
+      <li><a href="#performance">12. Cache Locality & Memory Performance</a></li>
+      <li><a href="#pitfalls">13. Pitfalls & Interview Questions</a></li>
+      <li><a href="#cheatsheet">14. Quick Reference Cheat Sheet</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main id="main-content">
+    <header class="header">
+      <span class="badge">C++ Fundamentals &amp; Advanced Architecture</span>
+      <h1>Complete Guide to Arrays in C++</h1>
+      <p class="subtitle">An exhaustive reference covering raw arrays, memory layouts, pointer arithmetic, multidimensional structures, standard library alternatives, algorithmic patterns, and best practices.</p>
+    </header>
+
+    <!-- SECTION 1 -->
+    <section id="intro">
+      <h2>1. Introduction & Memory Layout</h2>
+      <p>An <strong>array</strong> is a fundamental data structure in C++ that stores a collection of elements of the <strong>same data type</strong> in <strong>contiguous (adjacent) memory locations</strong> under a single variable identifier.</p>
+
+      <h3>Key Characteristics</h3>
+      <ul>
+        <li><strong>Homogeneous:</strong> All elements must be of the identical data type (e.g., all <code>int</code>, all <code>double</code>).</li>
+        <li><strong>Contiguous Memory:</strong> Elements occupy uninterrupted physical blocks of RAM without gaps.</li>
+        <li><strong>Fixed Size:</strong> The capacity of a standard raw array is determined at compile time and cannot grow or shrink dynamically during runtime.</li>
+        <li><strong>Constant Time Random Access:</strong> Direct element lookup in $O(1)$ time complexity using an index offset.</li>
+        <li><strong>Zero-Indexed:</strong> Elements are addressed from index <code>0</code> up to <code>N - 1</code>, where <code>N</code> is the total number of elements.</li>
+      </ul>
+
+      <h3>Hardware Memory Layout</h3>
+      <p>Because elements are contiguous, the memory address of the element at index <code>i</code> is calculated mathematically by the CPU using direct pointer arithmetic:</p>
+      
+      <div class="callout callout-info">
+        <div class="callout-header">📌 Address Calculation Formula</div>
+        <code>Address(arr[i]) = Base_Address + (i * sizeof(DataType))</code>
+      </div>
+
+      <div class="memory-diagram">
+        <div class="diagram-title">Visual: `int arr[5] = {10, 20, 30, 40, 50};` (assuming 4 bytes per int)</div>
+        <div class="array-cells">
+          <div class="array-cell">
+            <div class="cell-val">10</div>
+            <div class="cell-idx">arr[0]</div>
+            <div class="cell-addr">0x1000</div>
+          </div>
+          <div class="array-cell">
+            <div class="cell-val">20</div>
+            <div class="cell-idx">arr[1]</div>
+            <div class="cell-addr">0x1004</div>
+          </div>
+          <div class="array-cell">
+            <div class="cell-val">30</div>
+            <div class="cell-idx">arr[2]</div>
+            <div class="cell-addr">0x1008</div>
+          </div>
+          <div class="array-cell">
+            <div class="cell-val">40</div>
+            <div class="cell-idx">arr[3]</div>
+            <div class="cell-addr">0x100C</div>
+          </div>
+          <div class="array-cell">
+            <div class="cell-val">50</div>
+            <div class="cell-idx">arr[4]</div>
+            <div class="cell-addr">0x1010</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2 -->
+    <section id="declaration">
+      <h2>2. Declaration & Initialization</h2>
+      <p>In standard C++, the size of a raw stack array must be a <strong>compile-time constant</strong> (an integer literal, a <code>constexpr</code> value, or a <code>const</code> integer initialized with a constant expression).</p>
+
+      <h3>Declaration Syntaxes</h3>
+      <pre><code><span class="c-kw">int</span> arr1[<span class="c-num">5</span>];                       <span class="c-com">// Declared on the stack; contains indeterminate (garbage) values!</span>
+<span class="c-kw">constexpr</span> <span class="c-kw">size_t</span> SIZE = <span class="c-num">10</span>;
+<span class="c-kw">double</span> arr2[SIZE];                  <span class="c-com">// Valid: size is a compile-time constant</span>
+</code></pre>
+
+      <h3>Initialization Variations</h3>
+      <pre><code><span class="c-com">// 1. Full List Initialization</span>
+<span class="c-kw">int</span> a[<span class="c-num">5</span>] = {<span class="c-num">1</span>, <span class="c-num">2</span>, <span class="c-num">3</span>, <span class="c-num">4</span>, <span class="c-num">5</span>};
+
+<span class="c-com">// 2. Implicit Sizing (compiler infers size = 4 from number of initializers)</span>
+<span class="c-kw">int</span> b[] = {<span class="c-num">10</span>, <span class="c-num">20</span>, <span class="c-num">30</span>, <span class="c-num">40</span>};
+
+<span class="c-com">// 3. Partial Initialization (remaining elements are zero-initialized)</span>
+<span class="c-kw">int</span> c[<span class="c-num">5</span>] = {<span class="c-num">1</span>, <span class="c-num">2</span>};                <span class="c-com">// c becomes {1, 2, 0, 0, 0}</span>
+
+<span class="c-com">// 4. Full Zero-Initialization</span>
+<span class="c-kw">int</span> d[<span class="c-num">5</span>] = {<span class="c-num">0</span>};                    <span class="c-com">// d becomes {0, 0, 0, 0, 0}</span>
+<span class="c-kw">int</span> e[<span class="c-num">5</span>] = {};                     <span class="c-com">// Standard zero-initialization (C++11)</span>
+
+<span class="c-com">// 5. Modern Uniform Initialization (C++11)</span>
+<span class="c-kw">int</span> f[<span class="c-num">3</span>]{<span class="c-num">100</span>, <span class="c-num">200</span>, <span class="c-num">300</span>};           <span class="c-com">// '=' is optional; prohibits narrowing conversions</span>
+
+<span class="c-com">// 6. C++20 Designated Initializers (for aggregate arrays in C99, partial in C++20)</span>
+<span class="c-kw">int</span> g[<span class="c-num">5</span>] = {[<span class="c-num">0</span>] = <span class="c-num">7</span>, [<span class="c-num">4</span>] = <span class="c-num">9</span>};     <span class="c-com">// Elements at indices 1, 2, 3 become 0</span>
+</code></pre>
+
+      <div class="callout callout-warning">
+        <div class="callout-header">⚠️ Warning: Garbage Values</div>
+        <p>A non-static local array declared without an initializer (e.g., <code>int data[100];</code>) contains <strong>uninitialized memory (garbage values)</strong>. Reading an uninitialized element triggers <strong>Undefined Behavior (UB)</strong>. Always initialize arrays with <code>{}</code> if you cannot assign all values immediately.</p>
+      </div>
+
+      <div class="callout callout-danger">
+        <div class="callout-header">🚫 Variable-Length Arrays (VLAs) Are Non-Standard in C++</div>
+        <p>In standard ISO C++, writing <code>int n; cin &gt;&gt; n; int arr[n];</code> is <strong>illegal</strong>. While some compilers like GCC and Clang support VLAs as an extension borrowed from C99, MSVC rejects it outright. VLAs risk stack overflows and are not standard C++. Use <code>std::vector&lt;int&gt; arr(n);</code> instead.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 3 -->
+    <section id="indexing">
+      <h2>3. Indexing & Bounds Safety</h2>
+      <p>Elements in an array are accessed using the subscript operator <code>[]</code>. In C++, raw array subscripting performs <strong>no bounds checking whatsoever</strong>.</p>
+
+      <pre><code><span class="c-kw">int</span> scores[<span class="c-num">4</span>] = {<span class="c-num">88</span>, <span class="c-num">92</span>, <span class="c-num">79</span>, <span class="c-num">95</span>};
+
+<span class="c-kw">int</span> first = scores[<span class="c-num">0</span>];             <span class="c-com">// 88</span>
+scores[<span class="c-num">2</span>] = <span class="c-num">85</span>;                    <span class="c-com">// Modifies 79 to 85</span>
+<span class="c-kw">int</span> last = scores[<span class="c-num">3</span>];              <span class="c-com">// 95 (last valid element)</span>
+</code></pre>
+
+      <h3>The Pointer Arithmetic Equivalence</h3>
+      <p>In C++, the expression <code>arr[i]</code> is defined by the language standard as syntactic sugar for:</p>
+      <pre><code>arr[i] <span class="c-op">==</span> *(arr <span class="c-op">+</span> i)</code></pre>
+      <p>Because addition is commutative (i.e., <code>*(arr + i) == *(i + arr)</code>), the following bizarre syntax is valid C++ (though frowned upon in production code):</p>
+      <pre><code><span class="c-kw">int</span> val = <span class="c-num">2</span>[scores];               <span class="c-com">// Exactly identical to scores[2]!</span>
+</code></pre>
+
+      <h3>Out-of-Bounds & Buffer Overflows</h3>
+      <p>Accessing <code>scores[4]</code> or <code>scores[-1]</code> invokes <strong>Undefined Behavior (UB)</strong>. The program may:</p>
+      <ul>
+        <li>Crash immediately with a Segmentation Fault (Access Violation).</li>
+        <li>Silently corrupt adjacent variables on the stack frame.</li>
+        <li>Introduce exploitable security vulnerabilities (buffer overflow attacks).</li>
+      </ul>
+    </section>
+
+    <!-- SECTION 4 -->
+    <section id="size">
+      <h2>4. Size Calculation & The Array Decay Problem</h2>
+
+      <h3>1. Traditional C-Style Idiom: `sizeof`</h3>
+      <pre><code><span class="c-kw">int</span> arr[] = {<span class="c-num">10</span>, <span class="c-num">20</span>, <span class="c-num">30</span>, <span class="c-num">40</span>, <span class="c-num">50</span>};
+<span class="c-kw">size_t</span> length = <span class="c-kw">sizeof</span>(arr) / <span class="c-kw">sizeof</span>(arr[<span class="c-num">0</span>]); <span class="c-com">// 20 bytes / 4 bytes = 5 elements</span>
+</code></pre>
+
+      <h3>2. Modern C++ Standard Idiom: `std::size` & `std::ssize`</h3>
+      <pre><code><span class="c-pre">#include</span> <span class="c-str">&lt;iterator&gt;</span>
+
+<span class="c-kw">size_t</span> len = <span class="c-type">std::size</span>(arr);       <span class="c-com">// C++17: Safe, compile-time verified size</span>
+<span class="c-kw">auto</span> signed_len = <span class="c-type">std::ssize</span>(arr); <span class="c-com">// C++20: Returns signed std::ptrdiff_t (avoids unsigned warnings)</span>
+</code></pre>
+
+      <h3>The Array Decay Trap</h3>
+      <p>When an array is passed into a function, it <strong>decays into a pointer</strong> to its first element. Within the function scope, <code>sizeof(arr)</code> yields the size of the <strong>pointer</strong> (typically 8 bytes on 64-bit systems), <em>not</em> the entire array!</p>
+
+      <pre><code><span class="c-kw">void</span> <span class="c-fn">badFunction</span>(<span class="c-kw">int</span> arr[<span class="c-num">10</span>]) {       <span class="c-com">// Syntactic lie! Compiler treats this as int* arr</span>
+    <span class="c-kw">size_t</span> bad_size = <span class="c-kw">sizeof</span>(arr);  <span class="c-com">// Returns 8 (size of pointer), NOT 40!</span>
+    <span class="c-com">// std::size(arr);             // COMPILE ERROR: cannot deduce size from pointer</span>
+}
+</code></pre>
+    </section>
+
+    <!-- SECTION 5 -->
+    <section id="iteration">
+      <h2>5. Traversal & Iteration</h2>
+      <p>Iterating through an array is one of the most common programming tasks. C++ offers multiple mechanisms:</p>
+
+      <h3>1. Classic Index-Based `for` Loop</h3>
+      <pre><code><span class="c-kw">int</span> arr[] = {<span class="c-num">1</span>, <span class="c-num">2</span>, <span class="c-num">3</span>, <span class="c-num">4</span>, <span class="c-num">5</span>};
+<span class="c-kw">int</span> n = <span class="c-kw">sizeof</span>(arr) / <span class="c-kw">sizeof</span>(arr[<span class="c-num">0</span>]);
+
+<span class="c-kw">for</span> (<span class="c-kw">int</span> i = <span class="c-num">0</span>; i &lt; n; ++i) {
+    <span class="c-type">std::cout</span> &lt;&lt; arr[i] &lt;&lt; <span class="c-str">" "</span>;
+}
+</code></pre>
+
+      <h3>2. Range-Based `for` Loop (C++11 Recommended)</h3>
+      <pre><code><span class="c-com">// Read-only traversal by const reference (efficient, avoids copying elements)</span>
+<span class="c-kw">for</span> (<span class="c-kw">const auto</span>&amp; val : arr) {
+    <span class="c-type">std::cout</span> &lt;&lt; val &lt;&lt; <span class="c-str">" "</span>;
+}
+
+<span class="c-com">// In-place modification by non-const reference</span>
+<span class="c-kw">for</span> (<span class="c-kw">auto</span>&amp; val : arr) {
+    val *= <span class="c-num">2</span>; <span class="c-com">// Doubles every element</span>
+}
+</code></pre>
+
+      <h3>3. Pointer-Based Traversal</h3>
+      <pre><code><span class="c-kw">for</span> (<span class="c-kw">const int</span>* ptr = arr; ptr &lt; arr + n; ++ptr) {
+    <span class="c-type">std::cout</span> &lt;&lt; *ptr &lt;&lt; <span class="c-str">" "</span>;
+}
+</code></pre>
+
+      <h3>4. Reverse Traversal</h3>
+      <pre><code><span class="c-kw">for</span> (<span class="c-kw">int</span> i = n - <span class="c-num">1</span>; i &gt;= <span class="c-num">0</span>; --i) {
+    <span class="c-type">std::cout</span> &lt;&lt; arr[i] &lt;&lt; <span class="c-str">" "</span>;
+}
+</code></pre>
+    </section>
+
+    <!-- SECTION 6 -->
+    <section id="functions">
+      <h2>6. Arrays & Functions</h2>
+
+      <h3>Passing Arrays to Functions</h3>
+      <p>Because arrays decay to pointers, you must pass the array's size explicitly, or use templates/references.</p>
+
+      <div class="comparison-grid">
+        <div class="card">
+          <div class="card-title">Approach 1: Pointer + Size (C-Style)</div>
+          <pre><code><span class="c-kw">void</span> <span class="c-fn">print</span>(<span class="c-kw">const int</span>* arr, <span class="c-kw">size_t</span> n) {
+    <span class="c-kw">for</span> (<span class="c-kw">size_t</span> i = <span class="c-num">0</span>; i &lt; n; ++i)
+        <span class="c-type">std::cout</span> &lt;&lt; arr[i] &lt;&lt; <span class="c-str">" "</span>;
+}
+<span class="c-com">// Usage: print(arr, 5);</span></code></pre>
+          <p>Works for any size, but loses size safety.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Approach 2: Array Reference (Type-Safe)</div>
+          <pre><code><span class="c-kw">template</span> &lt;<span class="c-kw">size_t</span> N&gt;
+<span class="c-kw">void</span> <span class="c-fn">print</span>(<span class="c-kw">const int</span> (&amp;arr)[N]) {
+    <span class="c-com">// Size N is deduced at compile-time!</span>
+    <span class="c-kw">for</span> (<span class="c-kw">size_t</span> i = <span class="c-num">0</span>; i &lt; N; ++i)
+        <span class="c-type">std::cout</span> &lt;&lt; arr[i] &lt;&lt; <span class="c-str">" "</span>;
+}</code></pre>
+          <p>No decay! Prevents passing pointers or wrong sizes.</p>
+        </div>
+      </div>
+
+      <h3>Returning Arrays from Functions</h3>
+      <p>In C++, functions <strong>cannot return a local raw array</strong> by value because raw arrays are not copy-assignable, and returning a pointer to a local stack array causes a dangling pointer disaster.</p>
+
+      <div class="callout callout-danger">
+        <div class="callout-header">🚨 Undefined Behavior: Returning Local Pointer</div>
+        <pre><code><span class="c-kw">int</span>* <span class="c-fn">badReturn</span>() {
+    <span class="c-kw">int</span> temp[<span class="c-num">5</span>] = {<span class="c-num">1</span>, <span class="c-num">2</span>, <span class="c-num">3</span>, <span class="c-num">4</span>, <span class="c-num">5</span>};
+    <span class="c-kw">return</span> temp; <span class="c-com">// FATAL ERROR: temp is destroyed when function finishes!</span>
+}</code></pre>
+      </div>
+
+      <h4>Modern Solutions:</h4>
+      <ul>
+        <li>Return <code>std::array&lt;T, N&gt;</code> (for compile-time fixed size).</li>
+        <li>Return <code>std::vector&lt;T&gt;</code> (for dynamic size).</li>
+        <li>Pass the target output array by reference as an argument.</li>
+      </ul>
+    </section>
+
+    <!-- SECTION 7 -->
+    <section id="pointers">
+      <h2>7. Arrays & Pointers Deep Dive</h2>
+      <p>Arrays and pointers are intimately linked in C++, but they are <strong>not the same thing</strong>.</p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Raw Array (<code>int arr[5]</code>)</th>
+            <th>Pointer (<code>int* ptr</code>)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Memory Allocation</strong></td>
+            <td>Allocates space for all elements (e.g., 20 bytes).</td>
+            <td>Allocates space only for memory address (8 bytes).</td>
+          </tr>
+          <tr>
+            <td><strong>Reassignability</strong></td>
+            <td>Constant lvalue; cannot be reassigned (<code>arr = ptr; // Error</code>).</td>
+            <td>Variable lvalue; can point to any address (<code>ptr = arr; // OK</code>).</td>
+          </tr>
+          <tr>
+            <td><strong>Address Operator <code>&amp;</code></strong></td>
+            <td><code>&amp;arr</code> yields pointer to entire array <code>int(*)[5]</code>.</td>
+            <td><code>&amp;ptr</code> yields pointer to pointer <code>int**</code>.</td>
+          </tr>
+          <tr>
+            <td><strong><code>sizeof</code> Operator</strong></td>
+            <td>Total memory size of elements ($5 \times 4 = 20$).</td>
+            <td>Size of pointer variable ($8$ bytes on 64-bit).</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Pointer to Array vs. Array of Pointers</h3>
+      <div class="comparison-grid">
+        <div class="card">
+          <div class="card-title">Pointer to an Array</div>
+          <p>A single pointer that points to a whole array of 5 ints.</p>
+          <pre><code><span class="c-kw">int</span> arr[<span class="c-num">5</span>] = {<span class="c-num">1</span>, <span class="c-num">2</span>, <span class="c-num">3</span>, <span class="c-num">4</span>, <span class="c-num">5</span>};
+<span class="c-kw">int</span> (*ptr)[<span class="c-num">5</span>] = &amp;arr; <span class="c-com">// Notice the parentheses!</span>
+
+<span class="c-com">// Advancing ptr jumps by 20 bytes!</span>
+ptr++;</code></pre>
+        </div>
+        <div class="card">
+          <div class="card-title">Array of Pointers</div>
+          <p>An array containing 5 separate pointers to integers.</p>
+          <pre><code><span class="c-kw">int</span> a = <span class="c-num">10</span>, b = <span class="c-num">20</span>;
+<span class="c-kw">int</span>* arr[<span class="c-num">2</span>]; <span class="c-com">// Array of 2 pointers</span>
+
+arr[<span class="c-num">0</span>] = &amp;a;
+arr[<span class="c-num">1</span>] = &amp;b;
+
+<span class="c-type">std::cout</span> &lt;&lt; *arr[<span class="c-num">0</span>]; <span class="c-com">// Outputs 10</span></code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 8 -->
+    <section id="multidimensional">
+      <h2>8. Multidimensional Arrays (2D, 3D, and N-D)</h2>
+      <p>A 2D array is essentially an <strong>array of arrays</strong>. In C++, multidimensional arrays are laid out in <strong>Row-Major Order</strong> in contiguous memory.</p>
+
+      <h3>Declaration and Initialization</h3>
+      <pre><code><span class="c-com">// Declare 3 rows and 4 columns</span>
+<span class="c-kw">int</span> matrix[<span class="c-num">3</span>][<span class="c-num">4</span>] = {
+    {<span class="c-num">1</span>,  <span class="c-num">2</span>,  <span class="c-num">3</span>,  <span class="c-num">4</span>},
+    {<span class="c-num">5</span>,  <span class="c-num">6</span>,  <span class="c-num">7</span>,  <span class="c-num">8</span>},
+    {<span class="c-num">9</span>, <span class="c-num">10</span>, <span class="c-num">11</span>, <span class="c-num">12</span>}
+};
+
+<span class="c-com">// First dimension can be omitted if initialized</span>
+<span class="c-kw">int</span> grid[][<span class="c-num">3</span>] = {
+    {<span class="c-num">1</span>, <span class="c-num">2</span>, <span class="c-num">3</span>},
+    {<span class="c-num">4</span>, <span class="c-num">5</span>, <span class="c-num">6</span>}
+}; <span class="c-com">// Compiler infers 2 rows</span>
+</code></pre>
+
+      <h3>Row-Major Order Memory Layout</h3>
+      <p>Even though you think of a 2D array as a grid, RAM is linear (1D). Rows are stored sequentially:</p>
+
+      <div class="callout callout-info">
+        <div class="callout-header">📌 2D Address Calculation</div>
+        <code>Address(matrix[i][j]) = Base + (i * COLS + j) * sizeof(Type)</code>
+      </div>
+
+      <div class="memory-diagram">
+        <div class="diagram-title">Row-Major Sequence for 3x4 Matrix in Memory:</div>
+        <div class="array-cells">
+          <div class="array-cell"><div class="cell-val">1</div><div class="cell-idx">[0][0]</div></div>
+          <div class="array-cell"><div class="cell-val">2</div><div class="cell-idx">[0][1]</div></div>
+          <div class="array-cell"><div class="cell-val">3</div><div class="cell-idx">[0][2]</div></div>
+          <div class="array-cell"><div class="cell-val">4</div><div class="cell-idx">[0][3]</div></div>
+          <div class="array-cell" style="border-color: var(--accent-green);"><div class="cell-val">5</div><div class="cell-idx">[1][0]</div></div>
+          <div class="array-cell" style="border-color: var(--accent-green);"><div class="cell-val">6</div><div class="cell-idx">[1][1]</div></div>
+          <div class="array-cell" style="border-color: var(--accent-green);"><div class="cell-val">7</div><div class="cell-idx">[1][2]</div></div>
+          <div class="array-cell" style="border-color: var(--accent-green);"><div class="cell-val">8</div><div class="cell-idx">[1][3]</div></div>
+          <div class="array-cell" style="border-color: var(--accent-purple);"><div class="cell-val">9</div><div class="cell-idx">[2][0]</div></div>
+          <div class="array-cell" style="border-color: var(--accent-purple);"><div class="cell-val">10</div><div class="cell-idx">[2][1]</div></div>
+          <div class="array-cell" style="border-color: var(--accent-purple);"><div class="cell-val">11</div><div class="cell-idx">[2][2]</div></div>
+          <div class="array-cell" style="border-color: var(--accent-purple);"><div class="cell-val">12</div><div class="cell-idx">[2][3]</div></div>
+        </div>
+      </div>
+
+      <h3>Passing 2D Arrays to Functions</h3>
+      <p>Because the compiler needs to know how many columns exist to calculate row jumps, the column dimension <strong>must be specified</strong>:</p>
+      <pre><code><span class="c-kw">void</span> <span class="c-fn">processMatrix</span>(<span class="c-kw">int</span> mat[][<span class="c-num">4</span>], <span class="c-kw">int</span> rows) {
+    <span class="c-kw">for</span> (<span class="c-kw">int</span> i = <span class="c-num">0</span>; i &lt; rows; ++i) {
+        <span class="c-kw">for</span> (<span class="c-kw">int</span> j = <span class="c-num">0</span>; j &lt; <span class="c-num">4</span>; ++j) {
+            <span class="c-type">std::cout</span> &lt;&lt; mat[i][j] &lt;&lt; <span class="c-str">" "</span>;
+        }
+        <span class="c-type">std::cout</span> &lt;&lt; <span class="c-str">"\n"</span>;
+    }
+}
+</code></pre>
+
+      <h3>Processing Multidimensional Arrays Inside a Class</h3>
+      <p>A primary syllabus concept: encapsulating a 2D matrix inside a class with dedicated operations (e.g. Diagonal Sum, Matrix Transpose):</p>
+      <pre><code><span class="c-kw">class</span> <span class="c-type">Matrix</span> {
+<span class="c-kw">private:</span>
+    <span class="c-kw">int</span> data[<span class="c-num">3</span>][<span class="c-num">3</span>];
+
+<span class="c-kw">public:</span>
+    <span class="c-kw">void</span> <span class="c-fn">input</span>() {
+        <span class="c-kw">for</span> (<span class="c-kw">int</span> i = <span class="c-num">0</span>; i &lt; <span class="c-num">3</span>; ++i)
+            <span class="c-kw">for</span> (<span class="c-kw">int</span> j = <span class="c-num">0</span>; j &lt; <span class="c-num">3</span>; ++j)
+                <span class="c-type">std::cin</span> &gt;&gt; data[i][j];
+    }
+
+    <span class="c-kw">int</span> <span class="c-fn">diagonalSum</span>() <span class="c-kw">const</span> {
+        <span class="c-kw">int</span> sum = <span class="c-num">0</span>;
+        <span class="c-kw">for</span> (<span class="c-kw">int</span> i = <span class="c-num">0</span>; i &lt; <span class="c-num">3</span>; ++i) {
+            sum += data[i][i]; <span class="c-com">// Main diagonal</span>
+        }
+        <span class="c-kw">return</span> sum;
+    }
+};</code></pre>
+
+      <h3>Array of Objects</h3>
+      <p>Instantiating an array where each cell is an object instance:</p>
+      <pre><code><span class="c-kw">class</span> <span class="c-type">Item</span> {
+<span class="c-kw">public:</span>
+    <span class="c-kw">int</span> id;
+    <span class="c-kw">double</span> price;
+    <span class="c-fn">Item</span>(<span class="c-kw">int</span> i = <span class="c-num">0</span>, <span class="c-kw">double</span> p = <span class="c-num">0.0</span>) : id(i), price(p) {}
+};
+
+<span class="c-type">Item</span> inventory[<span class="c-num">5</span>]; <span class="c-com">// Array of 5 Item objects</span>
+inventory[<span class="c-num">0</span>] = <span class="c-type">Item</span>(<span class="c-num">101</span>, <span class="c-num">29.99</span>);
+</code></pre>
+    </section>
+
+    <!-- SECTION 9 -->
+    <section id="dynamic">
+      <h2>9. Dynamic Arrays (`new` / `delete[]`)</h2>
+      <p>When the size of an array cannot be known until runtime, memory must be allocated dynamically on the <strong>heap</strong>.</p>
+
+      <h3>1D Dynamic Array</h3>
+      <pre><code><span class="c-kw">int</span> n;
+<span class="c-type">std::cin</span> &gt;&gt; n;
+
+<span class="c-com">// Allocation on Heap</span>
+<span class="c-kw">int</span>* dyn_arr = <span class="c-kw">new</span> <span class="c-kw">int</span>[n](); <span class="c-com">// () zero-initializes the elements</span>
+
+<span class="c-com">// Usage</span>
+<span class="c-kw">for</span> (<span class="c-kw">int</span> i = <span class="c-num">0</span>; i &lt; n; ++i) {
+    dyn_arr[i] = i * <span class="c-num">10</span>;
+}
+
+<span class="c-com">// Deallocation (CRITICAL: MUST use delete[])</span>
+<span class="c-kw">delete</span>[] dyn_arr;
+dyn_arr = <span class="c-kw">nullptr</span>;            <span class="c-com">// Best practice: avoid dangling pointer</span>
+</code></pre>
+
+      <div class="callout callout-danger">
+        <div class="callout-header">🚨 Danger: Calling `delete` instead of `delete[]`</div>
+        <p>Calling single-object <code>delete ptr;</code> on an array allocated with <code>new[]</code> results in <strong>Undefined Behavior</strong> and memory leaks (destructors for remaining elements will not run).</p>
+      </div>
+
+      <h3>Dynamic 2D Array: Two Strategies</h3>
+      <div class="comparison-grid">
+        <div class="card">
+          <div class="card-title">Strategy A: Array of Pointers (`int**`)</div>
+          <pre><code><span class="c-kw">int</span>** arr = <span class="c-kw">new</span> <span class="c-kw">int</span>*[rows];
+<span class="c-kw">for</span> (<span class="c-kw">int</span> i = <span class="c-num">0</span>; i &lt; rows; ++i)
+    arr[i] = <span class="c-kw">new</span> <span class="c-kw">int</span>[cols];
+
+<span class="c-com">// Cleanup requires loop:</span>
+<span class="c-kw">for</span> (<span class="c-kw">int</span> i = <span class="c-num">0</span>; i &lt; rows; ++i)
+    <span class="c-kw">delete</span>[] arr[i];
+<span class="c-kw">delete</span>[] arr;</code></pre>
+          <p><strong style="color:var(--accent-red)">Drawback:</strong> Rows are fragmented across heap memory; poor cache locality.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Strategy B: Flattened 1D Block (Recommended)</div>
+          <pre><code><span class="c-com">// Single contiguous block allocation</span>
+<span class="c-kw">int</span>* mat = <span class="c-kw">new</span> <span class="c-kw">int</span>[rows * cols];
+
+<span class="c-com">// Access (i, j) using index math:</span>
+mat[i * cols + j] = <span class="c-num">42</span>;
+
+<span class="c-com">// Single deallocation:</span>
+<span class="c-kw">delete</span>[] mat;</code></pre>
+          <p><strong style="color:var(--accent-green)">Advantage:</strong> Cache-friendly, contiguous, single allocation &amp; deallocation.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 10 -->
+    <section id="modern-cpp">
+      <h2>10. Modern C++ Array Alternatives (`std::array`, `vector`, `span`)</h2>
+      <p>Modern C++ offers superior abstractions that replace raw C-style arrays with type safety, bounds checking, and zero runtime overhead.</p>
+
+      <h3>1. `std::array<T, N>` (C++11, `<array>`)</h3>
+      <p>A thin, zero-overhead wrapper around a fixed-size stack array. It knows its own size, provides iterators, and does not decay unexpectedly.</p>
+
+      <pre><code><span class="c-pre">#include</span> <span class="c-str">&lt;array&gt;</span>
+<span class="c-pre">#include</span> <span class="c-str">&lt;iostream&gt;</span>
+
+<span class="c-type">std::array</span>&lt;<span class="c-kw">int</span>, <span class="c-num">5</span>&gt; arr = {<span class="c-num">10</span>, <span class="c-num">20</span>, <span class="c-num">30</span>, <span class="c-num">40</span>, <span class="c-num">50</span>};
+
+<span class="c-kw">int</span> s = arr.size();          <span class="c-com">// 5</span>
+<span class="c-kw">int</span> f = arr.front();         <span class="c-com">// 10</span>
+<span class="c-kw">int</span> b = arr.back();          <span class="c-com">// 50</span>
+
+<span class="c-com">// Safe Bounds-Checked Access (.at() throws std::out_of_range exception)</span>
+<span class="c-kw">try</span> {
+    arr.at(<span class="c-num">10</span>) = <span class="c-num">99</span>;
+} <span class="c-kw">catch</span> (<span class="c-kw">const</span> <span class="c-type">std::out_of_range</span>&amp; e) {
+    <span class="c-type">std::cout</span> &lt;&lt; <span class="c-str">"Caught bounds error: "</span> &lt;&lt; e.what() &lt;&lt; <span class="c-str">'\n'</span>;
+}
+
+<span class="c-com">// C++17 Structured Binding</span>
+<span class="c-kw">auto</span> [x, y, z, w, v] = arr;
+</code></pre>
+
+      <h3>2. `std::vector<T>` (C++98 / Modern C++, `<vector>`)</h3>
+      <p>A dynamic, contiguous heap-backed array that resizes automatically when new elements are inserted.</p>
+      <pre><code><span class="c-pre">#include</span> <span class="c-str">&lt;vector&gt;</span>
+
+<span class="c-type">std::vector</span>&lt;<span class="c-kw">int</span>&gt; vec = {<span class="c-num">1</span>, <span class="c-num">2</span>, <span class="c-num">3</span>};
+vec.push_back(<span class="c-num">4</span>);             <span class="c-com">// Grows capacity dynamically</span>
+vec.pop_back();              <span class="c-com">// Removes last element</span>
+</code></pre>
+
+      <h3>3. `std::span<T>` (C++20, `<span>`)</h3>
+      <p>A non-owning view over any contiguous sequence (raw array, <code>std::array</code>, or <code>std::vector</code>). It completely solves the "array decay" problem without any memory copying!</p>
+      <pre><code><span class="c-pre">#include</span> <span class="c-str">&lt;span&gt;</span>
+<span class="c-pre">#include</span> <span class="c-str">&lt;iostream&gt;</span>
+
+<span class="c-kw">void</span> <span class="c-fn">printSpan</span>(<span class="c-type">std::span</span>&lt;<span class="c-kw">const int</span>&gt; s) {
+    <span class="c-type">std::cout</span> &lt;&lt; <span class="c-str">"Span size: "</span> &lt;&lt; s.size() &lt;&lt; <span class="c-str">" | Elements: "</span>;
+    <span class="c-kw">for</span> (<span class="c-kw">int</span> x : s) <span class="c-type">std::cout</span> &lt;&lt; x &lt;&lt; <span class="c-str">" "</span>;
+    <span class="c-type">std::cout</span> &lt;&lt; <span class="c-str">'\n'</span>;
+}
+
+<span class="c-kw">int</span> raw[<span class="c-num">3</span>] = {<span class="c-num">1</span>, <span class="c-num">2</span>, <span class="c-num">3</span>};
+<span class="c-type">std::array</span>&lt;<span class="c-kw">int</span>, <span class="c-num">4</span>&gt; std_arr = {<span class="c-num">4</span>, <span class="c-num">5</span>, <span class="c-num">6</span>, <span class="c-num">7</span>};
+<span class="c-type">std::vector</span>&lt;<span class="c-kw">int</span>&gt; std_vec = {<span class="c-num">8</span>, <span class="c-num">9</span>, <span class="c-num">10</span>, <span class="c-num">11</span>, <span class="c-num">12</span>};
+
+printSpan(raw);      <span class="c-com">// Works seamlessly!</span>
+printSpan(std_arr);  <span class="c-com">// Works seamlessly!</span>
+printSpan(std_vec);  <span class="c-com">// Works seamlessly!</span>
+</code></pre>
+
+      <h3>Side-by-Side Comparison</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>C-Style Array</th>
+            <th><code>std::array</code></th>
+            <th><code>std::vector</code></th>
+            <th><code>std::span</code></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Memory Location</strong></td>
+            <td>Stack (or Heap if new)</td>
+            <td>Stack</td>
+            <td>Heap (internals on stack)</td>
+            <td>Non-owning view</td>
+          </tr>
+          <tr>
+            <td><strong>Size Type</strong></td>
+            <td>Fixed compile-time</td>
+            <td>Fixed compile-time</td>
+            <td>Dynamic runtime</td>
+            <td>Static or Dynamic</td>
+          </tr>
+          <tr>
+            <td><strong>Bounds Checking</strong></td>
+            <td>No</td>
+            <td>Yes (via <code>.at()</code>)</td>
+            <td>Yes (via <code>.at()</code>)</td>
+            <td>In debug mode</td>
+          </tr>
+          <tr>
+            <td><strong>Array Decay</strong></td>
+            <td>Decays to pointer</td>
+            <td>Does NOT decay</td>
+            <td>Does NOT decay</td>
+            <td>Does NOT decay</td>
+          </tr>
+          <tr>
+            <td><strong>Copy / Assignment</strong></td>
+            <td>No direct copy</td>
+            <td>Directly assignable</td>
+            <td>Directly assignable</td>
+            <td>Shallow view copy</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SECTION 11 -->
+    <section id="algorithms">
+      <h2>11. Common Algorithms & Operations</h2>
+      <p>Standard operations implemented on raw arrays and using <code>&lt;algorithm&gt;</code>.</p>
+
+      <h3>1. Searching Algorithms</h3>
+      <pre><code><span class="c-com">// Linear Search: O(N) time, O(1) space</span>
+<span class="c-kw">int</span> <span class="c-fn">linearSearch</span>(<span class="c-kw">const int</span> arr[], <span class="c-kw">int</span> n, <span class="c-kw">int</span> target) {
+    <span class="c-kw">for</span> (<span class="c-kw">int</span> i = <span class="c-num">0</span>; i &lt; n; ++i) {
+        <span class="c-kw">if</span> (arr[i] == target) <span class="c-kw">return</span> i;
+    }
+    <span class="c-kw">return</span> -<span class="c-num">1</span>;
+}
+
+<span class="c-com">// Binary Search (requires sorted array): O(log N) time</span>
+<span class="c-kw">int</span> <span class="c-fn">binarySearch</span>(<span class="c-kw">const int</span> arr[], <span class="c-kw">int</span> n, <span class="c-kw">int</span> target) {
+    <span class="c-kw">int</span> low = <span class="c-num">0</span>, high = n - <span class="c-num">1</span>;
+    <span class="c-kw">while</span> (low &lt;= high) {
+        <span class="c-kw">int</span> mid = low + (high - low) / <span class="c-num">2</span>;
+        <span class="c-kw">if</span> (arr[mid] == target) <span class="c-kw">return</span> mid;
+        <span class="c-kw">if</span> (arr[mid] &lt; target) low = mid + <span class="c-num">1</span>;
+        <span class="c-kw">else</span> high = mid - <span class="c-num">1</span>;
+    }
+    <span class="c-kw">return</span> -<span class="c-num">1</span>;
+}
+</code></pre>
+
+      <h3>2. Two Pointers In-Place Reversal</h3>
+      <pre><code><span class="c-kw">void</span> <span class="c-fn">reverseArray</span>(<span class="c-kw">int</span> arr[], <span class="c-kw">int</span> n) {
+    <span class="c-kw">int</span> left = <span class="c-num">0</span>, right = n - <span class="c-num">1</span>;
+    <span class="c-kw">while</span> (left &lt; right) {
+        <span class="c-type">std::swap</span>(arr[left], arr[right]);
+        left++;
+        right--;
+    }
+}
+</code></pre>
+
+      <h3>3. STL Algorithms with Raw Arrays</h3>
+      <pre><code><span class="c-pre">#include</span> <span class="c-str">&lt;algorithm&gt;</span>
+<span class="c-pre">#include</span> <span class="c-str">&lt;numeric&gt;</span>
+
+<span class="c-kw">int</span> arr[] = {<span class="c-num">42</span>, <span class="c-num">13</span>, <span class="c-num">88</span>, <span class="c-num">7</span>, <span class="c-num">29</span>};
+<span class="c-kw">int</span> n = <span class="c-type">std::size</span>(arr);
+
+<span class="c-com">// Sort Ascending O(N log N)</span>
+<span class="c-type">std::sort</span>(arr, arr + n);
+
+<span class="c-com">// Min &amp; Max elements</span>
+<span class="c-kw">int</span> minVal = *<span class="c-type">std::min_element</span>(arr, arr + n);
+<span class="c-kw">int</span> maxVal = *<span class="c-type">std::max_element</span>(arr, arr + n);
+
+<span class="c-com">// Summation (std::accumulate in &lt;numeric&gt;)</span>
+<span class="c-kw">int</span> sum = <span class="c-type">std::accumulate</span>(arr, arr + n, <span class="c-num">0</span>);
+
+<span class="c-com">// Standard Reversal</span>
+<span class="c-type">std::reverse</span>(arr, arr + n);
+</code></pre>
+    </section>
+
+    <!-- SECTION 12 -->
+    <section id="performance">
+      <h2>12. Cache Locality & Memory Performance</h2>
+      <p>Modern CPU architectures rely heavily on multiple levels of caches (L1, L2, L3). When an array element is accessed, the CPU loads a whole <strong>Cache Line</strong> (typically 64 bytes) from RAM into cache.</p>
+
+      <h3>Spatial Locality Advantage</h3>
+      <p>Because arrays store data contiguously, reading element <code>arr[0]</code> immediately brings <code>arr[1]</code> through <code>arr[15]</code> (for 4-byte ints) into ultra-fast L1 cache. This makes arrays substantially faster than pointer-based data structures like linked lists.</p>
+
+      <h3>2D Traversal: Row-Major vs. Column-Major Benchmarking</h3>
+      <div class="comparison-grid">
+        <div class="card">
+          <div class="card-title">✅ Row-Wise Traversal (Cache-Friendly)</div>
+          <pre><code><span class="c-com">// Stride = 1 element</span>
+<span class="c-kw">for</span> (<span class="c-kw">int</span> i = <span class="c-num">0</span>; i &lt; ROWS; ++i) {
+    <span class="c-kw">for</span> (<span class="c-kw">int</span> j = <span class="c-num">0</span>; j &lt; COLS; ++j) {
+        sum += matrix[i][j]; <span class="c-com">// FAST! Cache hits</span>
+    }
+}</code></pre>
+          <p>Consecutive memory reads maximize cache hits. Up to 10×-20× faster!</p>
+        </div>
+
+        <div class="card">
+          <div class="card-title">❌ Column-Wise Traversal (Cache-Trashing)</div>
+          <pre><code><span class="c-com">// Stride = COLS * sizeof(int)</span>
+<span class="c-kw">for</span> (<span class="c-kw">int</span> j = <span class="c-num">0</span>; j &lt; COLS; ++j) {
+    <span class="c-kw">for</span> (<span class="c-kw">int</span> i = <span class="c-num">0</span>; i &lt; ROWS; ++i) {
+        sum += matrix[i][j]; <span class="c-com">// SLOW! Cache misses</span>
+    }
+}</code></pre>
+          <p>Jumps across large memory strides, continuously flushing and refilling CPU cache lines.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 13 -->
+    <section id="pitfalls">
+      <h2>13. Pitfalls & Interview Questions</h2>
+
+      <h3>Top Pitfalls</h3>
+      <ol>
+        <li><strong>Off-By-One Errors (OBOE):</strong> For an array of size $N$, looping until <code>i &lt;= n</code> instead of <code>i &lt; n</code> accesses <code>arr[n]</code> (an invalid element outside the array boundary).</li>
+        <li><strong>Returning Addresses of Local Arrays:</strong> Stack arrays are deallocated as soon as their enclosing scope ends.</li>
+        <li><strong>Using `sizeof` on Function Parameters:</strong> Inside functions, raw arrays have decayed to pointers; <code>sizeof(param)</code> is just 8 bytes on 64-bit systems.</li>
+        <li><strong>Mismatch in Dynamic Memory Deallocation:</strong> Allocating with <code>new Type[N]</code> requires <code>delete[]</code>, not <code>delete</code>.</li>
+        <li><strong>Stack Overflow with Massive Arrays:</strong> Default stack size is typically 1MB - 8MB. Allocating <code>int arr[10000000];</code> on the stack causes a fatal stack overflow crash. Use <code>std::vector</code> or heap allocation for large datasets.</li>
+      </ol>
+
+      <h3>Frequently Asked Technical Questions</h3>
+      
+      <div class="callout callout-info">
+        <div class="callout-header">Q1: What is the difference between `int* p = new int[10];` and `int arr[10];`?</div>
+        <p><code>arr[10]</code> allocates 10 integers on the <strong>stack</strong> with compile-time fixed size, automatically deallocated when exiting scope. <code>new int[10]</code> allocates memory on the <strong>heap</strong>, requires manual deallocation with <code>delete[]</code>, and allows runtime dynamic sizing.</p>
+      </div>
+
+      <div class="callout callout-info">
+        <div class="callout-header">Q2: Why is array indexing 0-based instead of 1-based?</div>
+        <p>Because the index represents an <strong>offset</strong> (displacement) from the base memory address: <code>Address = Base + index * sizeof(element)</code>. An index of 0 means zero offset from the start.</p>
+      </div>
+
+      <div class="callout callout-info">
+        <div class="callout-header">Q3: Why doesn't standard C++ allow returning raw arrays directly from functions?</div>
+        <p>In C++, arrays do not have copy constructors or copy assignment operators defined for raw array types. Arrays decay to pointers when passed or evaluated in most expressions.</p>
+      </div>
+    </section>
+
+    <!-- SECTION 14 -->
+    <section id="cheatsheet">
+      <h2>14. Quick Reference Cheat Sheet</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Operation / Task</th>
+            <th>Modern C++ Syntax</th>
+            <th>Time Complexity</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Stack declaration with zeroing</td>
+            <td><code>int arr[N]{};</code></td>
+            <td>$O(N)$</td>
+          </tr>
+          <tr>
+            <td>Access element at index $i$</td>
+            <td><code>arr[i]</code> or <code>std_arr.at(i)</code></td>
+            <td>$O(1)$</td>
+          </tr>
+          <tr>
+            <td>Count elements (C++17)</td>
+            <td><code>std::size(arr)</code></td>
+            <td>$O(1)$ (compile-time)</td>
+          </tr>
+          <tr>
+            <td>Range-based traversal</td>
+            <td><code>for (const auto&amp; x : arr)</code></td>
+            <td>$O(N)$</td>
+          </tr>
+          <tr>
+            <td>Heap allocation &amp; cleanup</td>
+            <td><code>int* a = new int[n]; ... delete[] a;</code></td>
+            <td>$O(N)$</td>
+          </tr>
+          <tr>
+            <td>Sort ascending</td>
+            <td><code>std::sort(std::begin(arr), std::end(arr));</code></td>
+            <td>$O(N \log N)$</td>
+          </tr>
+          <tr>
+            <td>Linear / Binary Search</td>
+            <td><code>std::find</code> / <code>std::binary_search</code></td>
+            <td>$O(N)$ / $O(\log N)$</td>
+          </tr>
+          <tr>
+            <td>Non-owning span view (C++20)</td>
+            <td><code>std::span&lt;int&gt; s{arr};</code></td>
+            <td>$O(1)$</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <script>
+    // Smooth scrolling & active link highlighting in sidebar
+    document.addEventListener('DOMContentLoaded', () => {
+      const links = document.querySelectorAll('#sidebar a');
+      const sections = Array.from(links).map(link => document.querySelector(link.getAttribute('href')));
+
+      window.addEventListener('scroll', () => {
+        let current = '';
+        const scrollPosition = window.scrollY + 100;
+
+        sections.forEach(section => {
+          if (section && section.offsetTop <= scrollPosition) {
+            current = section.getAttribute('id');
+          }
+        });
+
+        links.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+
