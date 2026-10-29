@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C++ Friend Functions and Friend Classes - Master Notes</title>
+  <style>
+    :root {
+      --bg-primary: #0d1117;
+      --bg-secondary: #161b22;
+      --bg-tertiary: #21262d;
+      --text-main: #e6edf3;
+      --text-muted: #8b949e;
+      --accent-blue: #58a6ff;
+      --accent-green: #3fb950;
+      --accent-purple: #bc8cff;
+      --accent-orange: #d29922;
+      --accent-red: #f85149;
+      --accent-cyan: #39c5cf;
+      --border-color: #30363d;
+      --code-bg: #090d13;
+      --sidebar-width: 280px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      line-height: 1.65;
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    #sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--bg-secondary);
+      border-right: 1px solid var(--border-color);
+      position: fixed;
+      top: 0; bottom: 0; left: 0;
+      overflow-y: auto;
+      padding: 24px 16px;
+      z-index: 100;
+    }
+    #sidebar h2 {
+      font-size: 1.15rem;
+      color: var(--accent-blue);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    #sidebar ul { list-style: none; }
+    #sidebar li { margin-bottom: 6px; }
+    #sidebar a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      display: block;
+      padding: 6px 10px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+    #sidebar a:hover, #sidebar a.active {
+      background-color: var(--bg-tertiary);
+      color: var(--accent-blue);
+    }
+    #main-content {
+      margin-left: var(--sidebar-width);
+      padding: 40px 60px 100px 60px;
+      max-width: 1100px;
+      width: calc(100% - var(--sidebar-width));
+    }
+    header.header {
+      margin-bottom: 40px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 24px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 20px;
+      background: rgba(88, 166, 255, 0.15);
+      color: var(--accent-blue);
+      border: 1px solid rgba(88, 166, 255, 0.3);
+      margin-bottom: 12px;
+    }
+    h1 { font-size: 2.5rem; color: #fff; margin-bottom: 12px; }
+    .subtitle { font-size: 1.1rem; color: var(--text-muted); }
+    section { margin-bottom: 50px; scroll-margin-top: 30px; }
+    h2 {
+      font-size: 1.6rem;
+      color: #fff;
+      margin-bottom: 18px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    h3 { font-size: 1.25rem; color: var(--accent-cyan); margin: 24px 0 12px 0; }
+    p { margin-bottom: 14px; color: #c9d1d9; }
+    ul, ol { margin-left: 24px; margin-bottom: 16px; color: #c9d1d9; }
+    li { margin-bottom: 6px; }
+    code {
+      font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 0.88em;
+      background-color: rgba(110, 118, 129, 0.2);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #f0883e;
+    }
+    pre {
+      background-color: var(--code-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 18px;
+      overflow-x: auto;
+      margin: 14px 0 20px 0;
+    }
+    pre code { background: none; padding: 0; color: #e6edf3; font-size: 0.9rem; }
+    .c-kw { color: #ff7b72; font-weight: 600; }
+    .c-type { color: #79c0ff; }
+    .c-str { color: #a5d6ff; }
+    .c-num { color: #79c0ff; }
+    .c-com { color: #8b949e; font-style: italic; }
+    .c-fn { color: #d2a8ff; }
+    .callout {
+      border-left: 4px solid;
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      margin: 18px 0;
+      background-color: var(--bg-secondary);
+    }
+    .callout-info { border-color: var(--accent-blue); background-color: rgba(88, 166, 255, 0.08); }
+    .callout-tip { border-color: var(--accent-green); background-color: rgba(63, 185, 80, 0.08); }
+    .callout-warning { border-color: var(--accent-orange); background-color: rgba(210, 153, 34, 0.08); }
+    .callout-danger { border-color: var(--accent-red); background-color: rgba(248, 81, 73, 0.08); }
+    .callout-header { font-weight: 600; margin-bottom: 6px; }
+    .callout-info .callout-header { color: var(--accent-blue); }
+    .callout-tip .callout-header { color: var(--accent-green); }
+    .callout-warning .callout-header { color: var(--accent-orange); }
+    .callout-danger .callout-header { color: var(--accent-red); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background-color: var(--bg-secondary);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+    th, td { padding: 12px 16px; border-bottom: 1px solid var(--border-color); font-size: 0.9rem; }
+    th { background-color: var(--bg-tertiary); color: #fff; }
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .card {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 18px;
+    }
+    .card-title { font-size: 1.1rem; font-weight: 600; color: var(--accent-blue); margin-bottom: 8px; }
+    @media (max-width: 900px) {
+      body { flex-direction: column; }
+      #sidebar { position: relative; width: 100%; height: auto; }
+      #main-content { margin-left: 0; width: 100%; padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <nav id="sidebar">
+    <h2>📑 Friend Contents</h2>
+    <ul>
+      <li><a href="#intro">1. What is the `friend` Keyword?</a></li>
+      <li><a href="#friend-function">2. Global Friend Functions</a></li>
+      <li><a href="#member-friend">3. Member Function as Friend</a></li>
+      <li><a href="#friend-class">4. Friend Classes</a></li>
+      <li><a href="#properties">5. Core Rules of Friendship</a></li>
+      <li><a href="#operators">6. Operator Overloading with Friends</a></li>
+      <li><a href="#bridge">7. Bridging Multiple Classes</a></li>
+      <li><a href="#tradeoffs">8. Encapsulation vs. Friend Trade-offs</a></li>
+    </ul>
+  </nav>
+
+  <main id="main-content">
+    <header class="header">
+      <span class="badge">Encapsulation &amp; Access Control</span>
+      <h1>Friend Functions and Friend Classes in C++</h1>
+      <p class="subtitle">Complete reference on controlled encapsulation bypassing, global friends, cross-class member friends, friendship rules, and stream operator overloading.</p>
+    </header>
+
+    <section id="intro">
+      <h2>1. What is the `friend` Keyword?</h2>
+      <p>In C++, encapsulation strictly restricts access to <code>private</code> and <code>protected</code> members of a class. The <code>friend</code> mechanism allows a class to explicitly grant access to its non-public members to specific external functions or other classes.</p>
+      <ul>
+        <li>A friend function is <strong>not a member function</strong> of the class.</li>
+        <li>It has no <code>this</code> pointer.</li>
+        <li>It can be declared anywhere in the class (in <code>private</code>, <code>protected</code>, or <code>public</code> without affecting its access level).</li>
+      </ul>
+    </section>
+
+    <section id="friend-function">
+      <h2>2. Global Friend Functions</h2>
+      <p>A global non-member function granted access to private state:</p>
+      <pre><code><span class="c-kw">class</span> <span class="c-type">Box</span> {
+<span class="c-kw">private:</span>
+    <span class="c-kw">double</span> width;
+
+<span class="c-kw">public:</span>
+    <span class="c-fn">Box</span>(<span class="c-kw">double</span> w) : width(w) {}
+
+    <span class="c-com">// Declare global friend function</span>
+    <span class="c-kw">friend void</span> <span class="c-fn">printWidth</span>(<span class="c-kw">const</span> <span class="c-type">Box</span>&amp; b);
+};
+
+<span class="c-com">// Definition outside class (NOTE: Do NOT use friend keyword or Box:: scope!)</span>
+<span class="c-kw">void</span> <span class="c-fn">printWidth</span>(<span class="c-kw">const</span> <span class="c-type">Box</span>&amp; b) {
+    <span class="c-com">// Can access private 'width' directly:</span>
+    <span class="c-type">std::cout</span> &lt;&lt; <span class="c-str">"Width: "</span> &lt;&lt; b.width &lt;&lt; <span class="c-str">'\n'</span>;
+}
+</code></pre>
+    </section>
+
+    <section id="member-friend">
+      <h2>3. Member Function of Another Class as Friend</h2>
+      <p>You can grant friendship to a specific method of another class. This requires careful <strong>forward declarations</strong> and ordering:</p>
+      <pre><code><span class="c-kw">class</span> <span class="c-type">TargetClass</span>; <span class="c-com">// Forward declaration</span>
+
+<span class="c-kw">class</span> <span class="c-type">Inspector</span> {
+<span class="c-kw">public:</span>
+    <span class="c-kw">void</span> <span class="c-fn">inspect</span>(<span class="c-kw">const</span> <span class="c-type">TargetClass</span>&amp; t); <span class="c-com">// Declare only</span>
+};
+
+<span class="c-kw">class</span> <span class="c-type">TargetClass</span> {
+<span class="c-kw">private:</span>
+    <span class="c-kw">int</span> secretCode = <span class="c-num">999</span>;
+
+    <span class="c-com">// Grant friendship specifically to Inspector::inspect</span>
+    <span class="c-kw">friend void</span> <span class="c-type">Inspector</span>::<span class="c-fn">inspect</span>(<span class="c-kw">const</span> <span class="c-type">TargetClass</span>&amp; t);
+};
+
+<span class="c-com">// Define the method after TargetClass definition is known</span>
+<span class="c-kw">void</span> <span class="c-type">Inspector</span>::<span class="c-fn">inspect</span>(<span class="c-kw">const</span> <span class="c-type">TargetClass</span>&amp; t) {
+    <span class="c-type">std::cout</span> &lt;&lt; <span class="c-str">"Secret code: "</span> &lt;&lt; t.secretCode &lt;&lt; <span class="c-str">'\n'</span>;
+}
+</code></pre>
+    </section>
+
+    <section id="friend-class">
+      <h2>4. Friend Classes</h2>
+      <p>When an entire class is declared as a friend, <strong>all member functions</strong> of the friend class gain access to private and protected members of the granting class.</p>
+      <pre><code><span class="c-kw">class</span> <span class="c-type">Engine</span> {
+<span class="c-kw">private:</span>
+    <span class="c-kw">int</span> horsepower = <span class="c-num">450</span>;
+    <span class="c-kw">bool</span> turboActive = <span class="c-kw">false</span>;
+
+    <span class="c-com">// Declare Car as friend class</span>
+    <span class="c-kw">friend class</span> <span class="c-type">Car</span>;
+};
+
+<span class="c-kw">class</span> <span class="c-type">Car</span> {
+<span class="c-kw">public:</span>
+    <span class="c-kw">void</span> <span class="c-fn">tuneEngine</span>(<span class="c-type">Engine</span>&amp; e) {
+        e.horsepower += <span class="c-num">50</span>;     <span class="c-com">// Direct private access</span>
+        e.turboActive = <span class="c-kw">true</span>;
+    }
+};
+</code></pre>
+    </section>
+
+    <section id="properties">
+      <h2>5. Core Rules of Friendship</h2>
+      <div class="callout callout-warning">
+        <div class="callout-header">⚠️ The Three Iron Rules of C++ Friendship</div>
+        <ol>
+          <li><strong>Friendship is NOT Symmetric (Not Mutual):</strong> If Class A declares Class B as a friend, Class B can access Class A's private members. But Class A <em>cannot</em> access Class B's private members unless B explicitly returns the favor.</li>
+          <li><strong>Friendship is NOT Transitive:</strong> If A is a friend of B, and B is a friend of C, A is <strong>not</strong> automatically a friend of C ("A friend of your friend is not your friend").</li>
+          <li><strong>Friendship is NOT Inherited:</strong> If Base declares F as a friend, Derived from Base does <strong>not</strong> inherit friendship with F.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="operators">
+      <h2>6. Operator Overloading with Friends</h2>
+      <p>The primary real-world use case of friend functions is overloading the stream insertion (<code>&lt;&lt;</code>) and extraction (<code>&gt;&gt;</code>) operators, where the left-hand operand is a stream object (like <code>std::ostream</code>), not your class object.</p>
+      <pre><code><span class="c-kw">class</span> <span class="c-type">Complex</span> {
+    <span class="c-kw">double</span> real, imag;
+<span class="c-kw">public:</span>
+    <span class="c-fn">Complex</span>(<span class="c-kw">double</span> r, <span class="c-kw">double</span> i) : real(r), imag(i) {}
+
+    <span class="c-com">// Must be a friend/non-member because std::cout is the left operand</span>
+    <span class="c-kw">friend</span> <span class="c-type">std::ostream</span>&amp; <span class="c-kw">operator</span>&lt;&lt;(<span class="c-type">std::ostream</span>&amp; os, <span class="c-kw">const</span> <span class="c-type">Complex</span>&amp; c) {
+        os &lt;&lt; c.real &lt;&lt; <span class="c-str">" + "</span> &lt;&lt; c.imag &lt;&lt; <span class="c-str">"i"</span>;
+        <span class="c-kw">return</span> os;
+    }
+};
+
+<span class="c-com">// Usage: std::cout &lt;&lt; Complex(3.0, 4.0);</span>
+</code></pre>
+    </section>
+
+    <section id="bridge">
+      <h2>7. Bridging Multiple Classes</h2>
+      <p>A single friend function can be a friend of multiple classes simultaneously, acting as a clean external bridge between two distinct data representations:</p>
+      <pre><code><span class="c-kw">class</span> <span class="c-type">ClassB</span>; <span class="c-com">// Forward declaration</span>
+
+<span class="c-kw">class</span> <span class="c-type">ClassA</span> {
+    <span class="c-kw">int</span> valueA = <span class="c-num">10</span>;
+    <span class="c-kw">friend int</span> <span class="c-fn">sumValues</span>(<span class="c-kw">const</span> <span class="c-type">ClassA</span>&amp; a, <span class="c-kw">const</span> <span class="c-type">ClassB</span>&amp; b);
+};
+
+<span class="c-kw">class</span> <span class="c-type">ClassB</span> {
+    <span class="c-kw">int</span> valueB = <span class="c-num">20</span>;
+    <span class="c-kw">friend int</span> <span class="c-fn">sumValues</span>(<span class="c-kw">const</span> <span class="c-type">ClassA</span>&amp; a, <span class="c-kw">const</span> <span class="c-type">ClassB</span>&amp; b);
+};
+
+<span class="c-kw">int</span> <span class="c-fn">sumValues</span>(<span class="c-kw">const</span> <span class="c-type">ClassA</span>&amp; a, <span class="c-kw">const</span> <span class="c-type">ClassB</span>&amp; b) {
+    <span class="c-kw">return</span> a.valueA + b.valueB; <span class="c-com">// Accesses private data of BOTH classes</span>
+}</code></pre>
+    </section>
+
+    <section id="tradeoffs">
+      <h2>8. Encapsulation vs. Friend Trade-offs</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Advantages</th>
+            <th>Disadvantages</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Enables natural operator overloading syntax (e.g. <code>cout &lt;&lt; obj</code>, <code>2.0 * matrix</code>).</td>
+            <td>Tightly couples external entities to internal class representation.</td>
+          </tr>
+          <tr>
+            <td>Provides granular access without making members <code>public</code> to the entire world.</td>
+            <td>Refactoring private variables requires rewriting all friend functions.</td>
+          </tr>
+          <tr>
+            <td>Allows efficient inter-class communication between tightly collaborating components (e.g. Iterator and Container).</td>
+            <td>Overuse can erode the benefits of object-oriented data hiding.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</body>
+</html>
+
