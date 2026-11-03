@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C++ Constructors and Destructors - Master Notes</title>
+  <style>
+    :root {
+      --bg-primary: #0d1117;
+      --bg-secondary: #161b22;
+      --bg-tertiary: #21262d;
+      --text-main: #e6edf3;
+      --text-muted: #8b949e;
+      --accent-blue: #58a6ff;
+      --accent-green: #3fb950;
+      --accent-purple: #bc8cff;
+      --accent-orange: #d29922;
+      --accent-red: #f85149;
+      --accent-cyan: #39c5cf;
+      --border-color: #30363d;
+      --code-bg: #090d13;
+      --sidebar-width: 280px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      line-height: 1.65;
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    #sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--bg-secondary);
+      border-right: 1px solid var(--border-color);
+      position: fixed;
+      top: 0; bottom: 0; left: 0;
+      overflow-y: auto;
+      padding: 24px 16px;
+      z-index: 100;
+    }
+    #sidebar h2 {
+      font-size: 1.15rem;
+      color: var(--accent-blue);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    #sidebar ul { list-style: none; }
+    #sidebar li { margin-bottom: 6px; }
+    #sidebar a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      display: block;
+      padding: 6px 10px;
+      border-radius: 6px;
+      transition: all 0.2s ease;
+    }
+    #sidebar a:hover, #sidebar a.active {
+      background-color: var(--bg-tertiary);
+      color: var(--accent-blue);
+    }
+    #main-content {
+      margin-left: var(--sidebar-width);
+      padding: 40px 60px 100px 60px;
+      max-width: 1100px;
+      width: calc(100% - var(--sidebar-width));
+    }
+    header.header {
+      margin-bottom: 40px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 24px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 20px;
+      background: rgba(88, 166, 255, 0.15);
+      color: var(--accent-blue);
+      border: 1px solid rgba(88, 166, 255, 0.3);
+      margin-bottom: 12px;
+    }
+    h1 { font-size: 2.5rem; color: #fff; margin-bottom: 12px; }
+    .subtitle { font-size: 1.1rem; color: var(--text-muted); }
+    section { margin-bottom: 50px; scroll-margin-top: 30px; }
+    h2 {
+      font-size: 1.6rem;
+      color: #fff;
+      margin-bottom: 18px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    h3 { font-size: 1.25rem; color: var(--accent-cyan); margin: 24px 0 12px 0; }
+    p { margin-bottom: 14px; color: #c9d1d9; }
+    ul, ol { margin-left: 24px; margin-bottom: 16px; color: #c9d1d9; }
+    li { margin-bottom: 6px; }
+    code {
+      font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 0.88em;
+      background-color: rgba(110, 118, 129, 0.2);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #f0883e;
+    }
+    pre {
+      background-color: var(--code-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 18px;
+      overflow-x: auto;
+      margin: 14px 0 20px 0;
+    }
+    pre code { background: none; padding: 0; color: #e6edf3; font-size: 0.9rem; }
+    .c-kw { color: #ff7b72; font-weight: 600; }
+    .c-type { color: #79c0ff; }
+    .c-str { color: #a5d6ff; }
+    .c-num { color: #79c0ff; }
+    .c-com { color: #8b949e; font-style: italic; }
+    .c-fn { color: #d2a8ff; }
+    .callout {
+      border-left: 4px solid;
+      border-radius: 0 8px 8px 0;
+      padding: 14px 18px;
+      margin: 18px 0;
+      background-color: var(--bg-secondary);
+    }
+    .callout-info { border-color: var(--accent-blue); background-color: rgba(88, 166, 255, 0.08); }
+    .callout-tip { border-color: var(--accent-green); background-color: rgba(63, 185, 80, 0.08); }
+    .callout-warning { border-color: var(--accent-orange); background-color: rgba(210, 153, 34, 0.08); }
+    .callout-danger { border-color: var(--accent-red); background-color: rgba(248, 81, 73, 0.08); }
+    .callout-header { font-weight: 600; margin-bottom: 6px; }
+    .callout-info .callout-header { color: var(--accent-blue); }
+    .callout-tip .callout-header { color: var(--accent-green); }
+    .callout-warning .callout-header { color: var(--accent-orange); }
+    .callout-danger .callout-header { color: var(--accent-red); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background-color: var(--bg-secondary);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+    th, td { padding: 12px 16px; border-bottom: 1px solid var(--border-color); font-size: 0.9rem; }
+    th { background-color: var(--bg-tertiary); color: #fff; }
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .card {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 18px;
+    }
+    .card-title { font-size: 1.1rem; font-weight: 600; color: var(--accent-blue); margin-bottom: 8px; }
+    @media (max-width: 900px) {
+      body { flex-direction: column; }
+      #sidebar { position: relative; width: 100%; height: auto; }
+      #main-content { margin-left: 0; width: 100%; padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <nav id="sidebar">
+    <h2>📑 Constructor Contents</h2>
+    <ul>
+      <li><a href="#intro">1. What is a Constructor?</a></li>
+      <li><a href="#default">2. Default Constructors</a></li>
+      <li><a href="#parameterized">3. Parameterized Constructors</a></li>
+      <li><a href="#initializer-list">4. Member Initializer Lists</a></li>
+      <li><a href="#copy">5. Copy Constructors</a></li>
+      <li><a href="#shallow-vs-deep">6. Shallow Copy vs Deep Copy</a></li>
+      <li><a href="#move">7. Move Constructors (C++11)</a></li>
+      <li><a href="#delegating">8. Delegating Constructors</a></li>
+      <li><a href="#explicit">9. The `explicit` Keyword</a></li>
+      <li><a href="#destructor">10. Destructors &amp; RAII</a></li>
+      <li><a href="#rules">11. Rule of Three / Five / Zero</a></li>
+    </ul>
+  </nav>
+
+  <main id="main-content">
+    <header class="header">
+      <span class="badge">Object Lifecycle</span>
+      <h1>Constructors and Destructors in C++</h1>
+      <p class="subtitle">Complete reference on object construction, member initialization lists, deep vs shallow copying, move semantics, RAII, and object destruction.</p>
+    </header>
+
+    <section id="intro">
+      <h2>1. Manager Functions: What is a Constructor?</h2>
+      <p>In C++, constructors and destructors are formally classified as <strong>Manager Functions</strong> because they manage the allocation, initialization, lifetime, and clean destruction of resources and memory associated with class instances.</p>
+      <p>A <strong>constructor</strong> is automatically invoked when an object is created:</p>
+      <ul>
+        <li>Shares the exact name of the enclosing class.</li>
+        <li><strong>No return type</strong> (not even <code>void</code>).</li>
+        <li>Cannot be <code>const</code>, <code>static</code>, or <code>virtual</code>.</li>
+      </ul>
+    </section>
+
+    <section id="default">
+      <h2>2. Default Constructors &amp; Constructors with Default Arguments</h2>
+      <p>A <strong>default constructor</strong> accepts no parameters. A <strong>constructor with default arguments</strong> can be called with fewer or zero arguments:</p>
+      <pre><code><span class="c-kw">class</span> <span class="c-type">Box</span> {
+    <span class="c-kw">int</span> length, width, height;
+<span class="c-kw">public:</span>
+    <span class="c-com">// Constructor with Default Arguments (acts as Default &amp; Parameterized!):</span>
+    <span class="c-fn">Box</span>(<span class="c-kw">int</span> l = <span class="c-num">1</span>, <span class="c-kw">int</span> w = <span class="c-num">1</span>, <span class="c-kw">int</span> h = <span class="c-num">1</span>)
+        : length(l), width(w), height(h) {}
+};
+
+<span class="c-type">Box</span> b1;             <span class="c-com">// Uses defaults: 1, 1, 1</span>
+<span class="c-type">Box</span> b2(<span class="c-num">10</span>);         <span class="c-com">// 10, 1, 1</span>
+<span class="c-type">Box</span> b3(<span class="c-num">10</span>, <span class="c-num">20</span>, <span class="c-num">30</span>); <span class="c-com">// 10, 20, 30</span>
+</code></pre>
+    </section>
+
+    <section id="dynamic-constructor">
+      <h2>3. Dynamic Constructors</h2>
+      <p>A <strong>Dynamic Constructor</strong> uses the <code>new</code> operator inside the constructor body to allocate memory dynamically on the heap at runtime.</p>
+      <pre><code><span class="c-kw">class</span> <span class="c-type">StringHolder</span> {
+    <span class="c-kw">char</span>* str;
+    <span class="c-kw">int</span> length;
+<span class="c-kw">public:</span>
+    <span class="c-com">// Dynamic Constructor:</span>
+    <span class="c-fn">StringHolder</span>(<span class="c-kw">const char</span>* s) {
+        length = <span class="c-fn">strlen</span>(s);
+        str = <span class="c-kw">new char</span>[length + <span class="c-num">1</span>]; <span class="c-com">// Heap allocation</span>
+        <span class="c-fn">strcpy</span>(str, s);
+    }
+    ~<span class="c-fn">StringHolder</span>() {
+        <span class="c-kw">delete</span>[] str; <span class="c-com">// Frees dynamically allocated memory</span>
+    }
+};</code></pre>
+    </section>
+
+    <section id="parameterized">
+      <h2>3. Parameterized Constructors</h2>
+      <p>Constructors that take arguments to initialize data members with custom initial values.</p>
+      <pre><code><span class="c-kw">class</span> <span class="c-type">Rectangle</span> {
+    <span class="c-kw">int</span> width, height;
+<span class="c-kw">public:</span>
+    <span class="c-fn">Rectangle</span>(<span class="c-kw">int</span> w, <span class="c-kw">int</span> h) {
+        width = w;
+        height = h;
+    }
+};
+
+<span class="c-com">// Invocation styles:</span>
+<span class="c-type">Rectangle</span> r1(<span class="c-num">10</span>, <span class="c-num">20</span>);      <span class="c-com">// Direct initialization</span>
+<span class="c-type">Rectangle</span> r2{<span class="c-num">10</span>, <span class="c-num">20</span>};      <span class="c-com">// Uniform list initialization (C++11)</span>
+</code></pre>
+    </section>
+
+    <section id="initializer-list">
+      <h2>4. Member Initializer Lists (Best Practice)</h2>
+      <p>Initializes member variables <strong>before</strong> the constructor body executes, placed between the constructor parameter list and opening brace.</p>
+      <pre><code><span class="c-kw">class</span> <span class="c-type">Student</span> {
+    <span class="c-kw">const int</span> rollNumber; <span class="c-com">// MUST use initializer list</span>
+    <span class="c-type">std::string</span>&amp; refName; <span class="c-com">// References MUST use initializer list</span>
+    <span class="c-type">std::string</span> branch;
+
+<span class="c-kw">public:</span>
+    <span class="c-fn">Student</span>(<span class="c-kw">int</span> r, <span class="c-type">std::string</span>&amp; name, <span class="c-type">std::string</span> b)
+        : rollNumber(r), refName(name), branch(b) {
+        <span class="c-com">// Constructor body</span>
+    }
+};</code></pre>
+      <div class="callout callout-tip">
+        <div class="callout-header">💡 Why Member Initializer Lists Win</div>
+        <p>Assigning inside the constructor body first calls the default constructor for members, then calls the copy assignment operator (double work). Initializer lists directly construct members with the given arguments.</p>
+      </div>
+    </section>
+
+    <section id="copy">
+      <h2>5. Copy Constructors</h2>
+      <p>Initializes a new object as a copy of an existing object of the same class. Signature: <code>ClassName(const ClassName&amp; other)</code>.</p>
+      <pre><code><span class="c-kw">class</span> <span class="c-type">Point</span> {
+<span class="c-kw">public:</span>
+    <span class="c-kw">int</span> x, y;
+    <span class="c-fn">Point</span>(<span class="c-kw">int</span> a, <span class="c-kw">int</span> b) : x(a), y(b) {}
+
+    <span class="c-com">// Copy Constructor</span>
+    <span class="c-fn">Point</span>(<span class="c-kw">const</span> <span class="c-type">Point</span>&amp; other) : x(other.x), y(other.y) {
+        <span class="c-type">std::cout</span> &lt;&lt; <span class="c-str">"Copy constructor called\n"</span>;
+    }
+};
+
+<span class="c-type">Point</span> p1(<span class="c-num">5</span>, <span class="c-num">10</span>);
+<span class="c-type">Point</span> p2 = p1; <span class="c-com">// Copy constructor triggered</span>
+<span class="c-type">Point</span> p3(p1);  <span class="c-com">// Copy constructor triggered</span>
+</code></pre>
+    </section>
+
+    <section id="shallow-vs-deep">
+      <h2>6. Shallow Copy vs Deep Copy</h2>
+      <p>When a class owns dynamically allocated memory (pointers), understanding shallow vs deep copy is vital:</p>
+
+      <div class="comparison-grid">
+        <div class="card">
+          <div class="card-title">❌ Shallow Copy (Default)</div>
+          <p>Copies member variables bit-by-bit. If a member is a pointer, only the memory address is copied! Both objects point to the same memory location.</p>
+          <p><strong style="color:var(--accent-red)">Bug:</strong> When both objects destruct, they free the same address (Double Free Crash!).</p>
+        </div>
+        <div class="card">
+          <div class="card-title">✅ Deep Copy (Custom)</div>
+          <p>Allocates fresh dynamic memory for the new object and copies the actual underlying data over.</p>
+          <pre><code><span class="c-kw">class</span> <span class="c-type">Buffer</span> {
+    <span class="c-kw">int</span>* data;
+<span class="c-kw">public:</span>
+    <span class="c-fn">Buffer</span>(<span class="c-kw">int</span> val) {
+        data = <span class="c-kw">new</span> <span class="c-kw">int</span>(val);
+    }
+    <span class="c-com">// Deep Copy Constructor</span>
+    <span class="c-fn">Buffer</span>(<span class="c-kw">const</span> <span class="c-type">Buffer</span>&amp; other) {
+        data = <span class="c-kw">new</span> <span class="c-kw">int</span>(*other.data);
+    }
+    ~<span class="c-fn">Buffer</span>() { <span class="c-kw">delete</span> data; }
+};</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section id="move">
+      <h2>7. Move Constructors (C++11)</h2>
+      <p>Instead of deep-copying expensive heap buffers from temporary objects (rvalues), a move constructor <strong>steals</strong> the pointers from the source object and nulls them out.</p>
+      <pre><code><span class="c-kw">class</span> <span class="c-type">DynamicArray</span> {
+    <span class="c-kw">int</span>* arr;
+    <span class="c-kw">size_t</span> size;
+<span class="c-kw">public:</span>
+    <span class="c-com">// Move Constructor (rvalue reference &&)</span>
+    <span class="c-fn">DynamicArray</span>(<span class="c-type">DynamicArray</span>&amp;&amp; other) <span class="c-kw">noexcept</span>
+        : arr(other.arr), size(other.size) {
+        <span class="c-com">// Reset source object so its destructor won't free stolen memory</span>
+        other.arr = <span class="c-kw">nullptr</span>;
+        other.size = <span class="c-num">0</span>;
+    }
+};</code></pre>
+    </section>
+
+    <section id="delegating">
+      <h2>8. Delegating Constructors</h2>
+      <p>C++11 allows a constructor to call another constructor in the same class within its initializer list to eliminate redundant initialization code:</p>
+      <pre><code><span class="c-kw">class</span> <span class="c-type">Circle</span> {
+    <span class="c-kw">double</span> radius;
+    <span class="c-type">std::string</span> color;
+<span class="c-kw">public:</span>
+    <span class="c-com">// Target Constructor</span>
+    <span class="c-fn">Circle</span>(<span class="c-kw">double</span> r, <span class="c-type">std::string</span> c) : radius(r), color(c) {}
+
+    <span class="c-com">// Delegating Constructor</span>
+    <span class="c-fn">Circle</span>() : <span class="c-fn">Circle</span>(<span class="c-num">1.0</span>, <span class="c-str">"red"</span>) {}
+};</code></pre>
+    </section>
+
+    <section id="explicit">
+      <h2>9. The `explicit` Keyword</h2>
+      <p>A single-argument constructor can be used by the compiler for <strong>implicit type conversion</strong>. Prefixing it with <code>explicit</code> prevents unexpected accidental conversions.</p>
+      <pre><code><span class="c-kw">class</span> <span class="c-type">SmartInt</span> {
+<span class="c-kw">public:</span>
+    <span class="c-kw">explicit</span> <span class="c-fn">SmartInt</span>(<span class="c-kw">int</span> x) {}
+};
+
+<span class="c-kw">void</span> <span class="c-fn">test</span>(<span class="c-type">SmartInt</span> s);
+
+<span class="c-com">// test(42);       // COMPILE ERROR: Implicit conversion forbidden!</span>
+test(<span class="c-type">SmartInt</span>(<span class="c-num">42</span>)); <span class="c-com">// OK: Explicit construction</span>
+</code></pre>
+    </section>
+
+    <section id="destructor">
+      <h2>10. Destructors, RAII &amp; Virtual Destructors</h2>
+      <p>A <strong>destructor</strong> is invoked automatically when an object's lifetime ends (leaves stack scope, or deleted with <code>delete</code>).</p>
+      <ul>
+        <li>Same name as class preceded by tilde: <code>~ClassName()</code>.</li>
+        <li>Takes no arguments, cannot be overloaded.</li>
+        <li><strong>Destruction Order:</strong> Exact reverse of construction order!</li>
+      </ul>
+
+      <h3>Virtual Destructors in Polymorphic Base Classes</h3>
+      <p>If a base class has any virtual functions, its destructor <strong>must be declared virtual</strong>. Without a virtual destructor, deleting a derived object through a base pointer causes undefined behavior and leaves the derived part of the object leaked!</p>
+      <pre><code><span class="c-kw">class</span> <span class="c-type">Base</span> {
+<span class="c-kw">public:</span>
+    <span class="c-kw">virtual</span> ~<span class="c-fn">Base</span>() { <span class="c-type">std::cout</span> &lt;&lt; <span class="c-str">"Base destroyed\n"</span>; }
+};
+
+<span class="c-kw">class</span> <span class="c-type">Derived</span> : <span class="c-kw">public</span> <span class="c-type">Base</span> {
+    <span class="c-kw">int</span>* arr = <span class="c-kw">new int</span>[<span class="c-num">50</span>];
+<span class="c-kw">public:</span>
+    ~<span class="c-fn">Derived</span>() <span class="c-kw">override</span> {
+        <span class="c-kw">delete</span>[] arr;
+        <span class="c-type">std::cout</span> &lt;&lt; <span class="c-str">"Derived array freed\n"</span>;
+    }
+};
+
+<span class="c-type">Base</span>* b = <span class="c-kw">new</span> <span class="c-type">Derived</span>();
+<span class="c-kw">delete</span> b; <span class="c-com">// Calls ~Derived() first, then ~Base() cleanly!</span>
+</code></pre>
+
+      <div class="callout callout-info">
+        <div class="callout-header">📌 RAII (Resource Acquisition Is Initialization)</div>
+        <p>Acquire resources (file handles, heap memory, mutex locks, sockets) in constructors; release them cleanly in destructors. Guarantees zero resource leaks even if exceptions occur.</p>
+      </div>
+    </section>
+
+    <section id="rules">
+      <h2>11. Rule of Three / Five / Zero</h2>
+      <ul>
+        <li><strong>Rule of Three (C++98):</strong> If you define a custom Destructor, Copy Constructor, or Copy Assignment Operator, you almost certainly need to define all three.</li>
+        <li><strong>Rule of Five (C++11):</strong> Adding move semantics: Destructor, Copy Constructor, Copy Assignment, Move Constructor, Move Assignment.</li>
+        <li><strong>Rule of Zero (Modern C++):</strong> Design classes using standard types (e.g. <code>std::unique_ptr</code>, <code>std::vector</code>, <code>std::string</code>) that manage their own resources, so you don't need to manually write any custom destructors or copy/move operations!</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
+
