@@ -12,26 +12,28 @@ This repository contains my progression from basic syntax and programming concep
 
 ```text
 CPP-Journey/
-└── CPP/
-    ├── Unit 1 - Concepts and Basics of C++ Programming and Functions/
-    │   ├── CallBy/                               (Call by value, address, reference, reference variables & pitfalls)
-    │   ├── Class/                                (Classes, objects, access specifiers, static members, struct vs union vs class)
-    │   ├── Friend/                               (Friend functions, friend classes, member friend functions)
-    │   ├── Functions/                            (Overloading, recursion, inline, scope rules & resolution)
-    │   └── SpecialType/                          (Enums, stream manipulators)
-    │
-    ├── Unit 2 - Pointers, Reference Variables, Arrays and String Concepts/
-    │   ├── Array/                                (Multidimensional arrays, array of objects, array processing)
-    │   ├── Pointers/                             (Pointer arithmetic, this pointer, double pointers, void/null/wild/dangling)
-    │   └── Strings/                              (Standard C++ string class, builtin methods, string modifiers)
-    │
-    ├── Unit 3 - Constructors, Destructors and File Handling/
-    │   ├── Constructor/                          (Default, parameterized, copy, deep/shallow, default args, destructors)
-    │   └── FileHandling/                         (Modes, sequential/random access, binary class & structure I/O, seek/tell)
-    │
-    └── Unit 4 - Operator Overloading, Type Conversion and Inheritance/
-        ├── OperatorOverloading_TypeConversion/   (Unary/binary overloading, basic-to-class, class-to-basic, class-to-class)
-        └── Inheritance/                          (Single, multilevel, multiple, hierarchical, virtual base class, execution order, composition)
+├── Concepts and Basics of C++ Programming and Functions/
+│   ├── CallBy/                               (Call by value, address, reference, reference variables & pitfalls)
+│   ├── Class/                                (Classes, objects, access specifiers, static members, struct vs union vs class)
+│   ├── Friend/                               (Friend functions, friend classes, member friend functions)
+│   ├── Functions/                            (Overloading, recursion, inline, scope rules & resolution)
+│   └── SpecialType/                          (Enums, stream manipulators)
+│
+├── Pointers, Reference Variables, Arrays and String Concepts/
+│   ├── Array/                                (Multidimensional arrays, array of objects, array processing)
+│   ├── Pointers/                             (Pointer arithmetic, this pointer, double pointers, void/null/wild/dangling)
+│   └── Strings/                              (Standard C++ string class, builtin methods, string modifiers)
+│
+├── Constructors, Destructors and File Handling/
+│   ├── Constructor/                          (Default, parameterized, copy, deep/shallow, default args, destructors)
+│   └── FileHandling/                         (Modes, sequential/random access, binary class & structure I/O, seek/tell)
+│
+├── Operator Overloading, Type Conversion and Inheritance/
+│   ├── OperatorOverloading_TypeConversion/   (Unary/binary overloading, basic-to-class, class-to-basic, class-to-class)
+│   └── Inheritance/                          (Single, multilevel, multiple, hierarchical, virtual base class, execution order, composition)
+│
+└── Dynamic Memory Management and Polymorphism/
+    └── DynamicObject.cpp                     (Dynamic memory allocation, new/delete, dynamic objects and arrays)
 ```
 
 ## 🎯 Syllabus Concepts Covered
