@@ -1,7 +1,7 @@
 #include<iostream>
 using namespace std;
 class geo{
-    virtual void calArea()=0;
+    virtual void calArea()=0;      //Abstract class;
 };
 class Rectangle{
     int l,b;
