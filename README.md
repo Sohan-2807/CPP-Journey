@@ -33,7 +33,19 @@ CPP-Journey/
 │   └── Inheritance/                          (Single, multilevel, multiple, hierarchical, virtual base class, execution order, composition)
 │
 └── 5. Dynamic Memory Management and Polymorphism/
-    └── DynamicObject.cpp                     (Dynamic memory allocation, new/delete, dynamic objects and arrays)
+    ├── DynamicMemoryBasic.cpp                (Scalar & 1D dynamic allocation, new, delete, delete[])
+    ├── Dynamic2DArray.cpp                    (Dynamic 2D array allocation via double pointers & deallocation)
+    ├── DynamicObject.cpp                     (Dynamic memory allocation for objects and arrays of objects)
+    ├── DynamicConstructor.cpp                (Allocating resources dynamically within constructors)
+    ├── MemoryAllocationFailure.cpp           (Allocation failure handling via bad_alloc & nothrow)
+    ├── SelfReferrentialClass.cpp             (Self-referential class structures and node linking)
+    ├── EarlyVsLateBinding.cpp                (Compile-time static binding vs runtime dynamic binding)
+    ├── VirtualFunctions.cpp                  (Virtual functions and runtime polymorphism)
+    ├── PureVirtual.cpp                       (Abstract classes and pure virtual functions)
+    ├── PureVirtual2.cpp                      (Hierarchical pure virtual implementation with employee salary model)
+    ├── PolymorphicArray.cpp                  (Array of base class pointers for polymorphic dispatch)
+    ├── VirtualDestructors.cpp                (Virtual destructors to prevent partial deletion leaks)
+    └── PureVirtualDestructor.cpp             (Abstract class creation via pure virtual destructor)
 ```
 
 ## 🎯 Syllabus Concepts Covered
@@ -78,6 +90,22 @@ CPP-Journey/
 * Resolving ambiguities in inheritance and Virtual Base Class (Diamond problem)
 * Order of execution of constructors and destructors
 * Containment: Aggregation vs Composition ("Has-A" vs "Is-A")
+
+### Unit V: Dynamic Memory Management and Polymorphism
+* Dynamic memory allocation and deallocation using `new`, `delete`, `new[]`, and `delete[]`
+* Dynamic 1D and 2D arrays (pointer-to-pointer `int**` allocation and cleanup)
+* Dynamic objects and dynamic arrays of objects
+* Dynamic constructors and resource cleanup
+* Handling memory allocation failures via `std::bad_alloc` and `std::nothrow`
+* Memory leaks, dangling pointers, and heap management
+* Self-referential classes and linked structures
+* Early (static/compile-time) binding vs Late (dynamic/run-time) binding
+* Base class pointer to derived class object
+* Virtual functions and dynamic dispatch mechanism (VTABLE & VPTR)
+* Pure virtual functions and Abstract classes / interfaces
+* Runtime polymorphism using an array of base class pointers
+* Virtual destructors for safe polymorphic deletion
+* Pure virtual destructors and out-of-class definitions
 
 ## 🚀 Goal
 
