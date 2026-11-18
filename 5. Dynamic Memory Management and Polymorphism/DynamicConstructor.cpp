@@ -37,6 +37,9 @@ class Student{
         }
         cout<<max;
     }
+    ~Student(){
+        delete[] marks; // Freeing dynamically allocated memory
+    }
 
 };
 
