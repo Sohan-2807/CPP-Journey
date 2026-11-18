@@ -21,7 +21,7 @@ int main(){
     s.getdata();
     fout.write((char*)&s,sizeof(s));
     fout.close();
-    ifstream fin("Data");
+    ifstream fin("Data", ios::binary);
     fin.read((char*)&ob,sizeof(ob));
     fin.close();
     ob.showdata();

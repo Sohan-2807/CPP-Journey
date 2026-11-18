@@ -15,15 +15,19 @@ int main(){
     }
     int arr[10] = {0};
     fstream file;
-    file.open("temp.txt",ios::out|ios::binary);
-    file.write((char *)marks,sizeof(arr));
+    file.open("temp.txt", ios::out | ios::binary);
+    file.write((char*)marks, n * sizeof(int));
     file.close();
-    file.open("temp.txt",ios::in|ios::binary);
-    file.read((char*)arr, sizeof(arr));
+
+    file.open("temp.txt", ios::in | ios::binary);
+    file.read((char*)arr, n * sizeof(int));
+    file.close();
+
     cout<<"\nmarks after reading and adding bouns marks: ";
-    for(int i = 0;i<n;i++){
-        cout<<arr[i]+10<<" ";
-        file.close();
+    for(int i = 0; i < n; i++){
+        cout<<arr[i] + 10<<" ";
     }
+    cout<<endl;
+    return 0;
 
 }

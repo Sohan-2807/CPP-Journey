@@ -9,12 +9,17 @@ int main(){
     char s;
     ifstream fin("Test.txt");
     if(fin){
+        // Reading until end of file is reached
         while(fin.get(s)){
             cout<<s;
         }
+        if(fin.eof()){
+            cout<<"\n[End of File (EOF) reached successfully]"<<endl;
+        }
     }
     else{
-        cout<<"\n Operation failed";
+        cout<<"\nOperation failed"<<endl;
     }
     fin.close();
+    return 0;
 }
