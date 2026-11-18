@@ -20,5 +20,14 @@ int main(){
         cout<<ptr->data<<"->";
         ptr = ptr->next;
     }
-    cout<<"NULL.";
+    cout<<"NULL."<<endl;
+
+    // Freeing dynamically allocated nodes
+    while(head != NULL){
+        Node *temp = head;
+        head = head->next;
+        delete temp;
+    }
+
+    return 0;
 }
