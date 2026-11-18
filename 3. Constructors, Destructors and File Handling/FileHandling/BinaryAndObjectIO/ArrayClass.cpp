@@ -23,7 +23,7 @@ int main(){
     fout.write((char*)arr,sizeof(arr));
     fout.close();
     Student s;
-    ifstream fin("Array");
+    ifstream fin("Array", ios::binary);
     Student a[5];
     fin.read((char*)a,sizeof(a));
     fin.close();

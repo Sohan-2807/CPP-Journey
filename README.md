@@ -31,7 +31,11 @@ CPP-Journey/
 │   │   ├── InitializerList/                  (Member initialization lists)
 │   │   └── Containment/                      (Aggregation and composition associations)
 │   ├── Destructor/                           (Destructor mechanics, destruction order, heap cleanup, private destructor)
-│   └── FileHandling/                         (Modes, sequential/random access, binary class & structure I/O, seek/tell)
+│   └── FileHandling/
+│       ├── BasicOperations/                  (File open modes, sequential write/read, formatted output, EOF)
+│       ├── RandomAccess/                     (seekp, seekg, tellp, tellg, random record access)
+│       ├── BinaryAndObjectIO/                (Binary records with struct, class, and object arrays)
+│       └── FileProcessing/                   (Word counting, file copying, and stream state checks)
 │
 ├── 4. Operator Overloading, Type Conversion and Inheritance/
 │   ├── OperatorOverloading_TypeConversion/   (Unary/binary overloading, basic-to-class, class-to-basic, class-to-class)
