@@ -1,9 +1,10 @@
 #include<iostream>
 using namespace std;
 class geo{
+    public:
     virtual void calArea()=0;      //Abstract class;
 };
-class Rectangle{
+class Rectangle: public geo{
     int l,b;
     public:
     void getdata(){
@@ -14,7 +15,7 @@ class Rectangle{
         cout<<"Area of rectangle is: "<<l*b<<endl;
     }
 };
-class circle{
+class circle: public geo{
     int r;
     public:
     void getdata(){
@@ -29,9 +30,14 @@ class circle{
 int main(){
     Rectangle r;
     r.getdata();
-    r.calArea();
     circle c;
     c.getdata();
-    c.calArea();
+
+    // Runtime polymorphism via base pointer
+    geo *g = &r;
+    g->calArea();
+    g = &c;
+    g->calArea();
+
     return 0;
 }
