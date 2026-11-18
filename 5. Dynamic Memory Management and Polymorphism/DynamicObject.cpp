@@ -24,5 +24,7 @@ int main(){
     for(int i = 0;i<n;i++){
         p[i].showArea();
     }
+    delete[] p; // Freeing dynamic array of objects
+    p = NULL;
     return 0;
 }
