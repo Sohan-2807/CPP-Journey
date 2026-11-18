@@ -25,7 +25,12 @@ CPP-Journey/
 │   └── Strings/                              (Standard C++ string class, builtin methods, string modifiers)
 │
 ├── 3. Constructors, Destructors and File Handling/
-│   ├── Constructor/                          (Default, parameterized, copy, deep/shallow, default args, destructors)
+│   ├── Constructor/
+│   │   ├── TypesOfConstructors/              (Default, parameterized, default arguments)
+│   │   ├── Copy/                             (Copy constructor, shallow copy, deep copy)
+│   │   ├── InitializerList/                  (Member initialization lists)
+│   │   └── Containment/                      (Aggregation and composition associations)
+│   ├── Destructor/                           (Destructor mechanics, destruction order, heap cleanup, private destructor)
 │   └── FileHandling/                         (Modes, sequential/random access, binary class & structure I/O, seek/tell)
 │
 ├── 4. Operator Overloading, Type Conversion and Inheritance/
