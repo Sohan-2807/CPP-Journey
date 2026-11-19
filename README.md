@@ -26,9 +26,11 @@ CPP-Journey/
 │
 ├── 3. Constructors, Destructors and File Handling/
 │   ├── Constructor/
-│   │   ├── TypesOfConstructors/              (Default, parameterized, default arguments)
+│   │   ├── TypesOfConstructors/              (Default, parameterized, default arguments, overloading, dynamic)
 │   │   ├── Copy/                             (Copy constructor, shallow copy, deep copy)
-│   │   ├── InitializerList/                  (Member initialization lists)
+│   │   ├── InitializerList/                  (Member initialization lists, const and reference members)
+│   │   ├── ConstAndStatic/                   (Const objects/functions, static counters, static object lifetime)
+│   │   ├── AdvancedConstructors/             (Explicit constructors, delegating constructors)
 │   │   └── Containment/                      (Aggregation and composition associations)
 │   ├── Destructor/                           (Destructor mechanics, destruction order, heap cleanup, private destructor)
 │   └── FileHandling/
@@ -84,10 +86,16 @@ CPP-Journey/
 * Manager functions: Constructors and Destructors
 * Default constructors, parameterized constructors, copy constructors (deep vs shallow)
 * Constructors with default arguments and ambiguity pitfalls
-* Initializer lists
+* Constructor overloading and dynamic constructors
+* Initializer lists (mandatory initialization for `const` and reference members)
+* `const` objects and `const` member functions
+* `static` data members, static object counters, and static object lifetimes
+* Advanced constructor mechanics: `explicit` keyword and delegating constructors
+* Destructors: syntax, LIFO destruction order, and RAII dynamic cleanup
 * Opening/closing files, file modes (`ios::in`, `ios::out`, `ios::binary`, `ios::app`)
 * Sequential and random access file processing (`seekg`, `seekp`, `tellg`, `tellp`)
 * Binary file operations with `class` and `struct` records (`write` and `read`)
+* Stream state flags (`good()`, `fail()`, `bad()`, `eof()`, `clear()`)
 
 ### Unit IV: Operator Overloading, Type Conversion and Inheritance
 * Unary operator overloading (prefix vs postfix `++` / `--`, negation `-`)
