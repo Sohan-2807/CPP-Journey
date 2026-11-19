@@ -40,23 +40,20 @@ CPP-Journey/
 │       └── FileProcessing/                   (Word counting, file copying, and stream state checks)
 │
 ├── 4. Operator Overloading, Type Conversion and Inheritance/
-│   ├── OperatorOverloading_TypeConversion/   (Unary/binary overloading, basic-to-class, class-to-basic, class-to-class)
-│   └── Inheritance/                          (Single, multilevel, multiple, hierarchical, virtual base class, execution order, composition)
+│   ├── OperatorOverloading/                  (Unary/binary operator overloading, friend function overloading)
+│   ├── TypeConversion/                       (Basic-to-class, class-to-basic, and class-to-class conversions)
+│   └── Inheritance/
+│       ├── TypesOfInheritance/               (Single, multilevel, multiple, and hierarchical inheritance)
+│       ├── VisibilityModes/                  (Public, protected, and private derivation)
+│       ├── AmbiguityAndVirtualBase/          (Ambiguity resolution, multipath, and virtual base classes)
+│       ├── ExecutionOrderAndOverriding/      (Constructor/destructor order and function overriding)
+│       └── Containment/                      (Aggregation and composition "Has-A" associations)
 │
 └── 5. Dynamic Memory Management and Polymorphism/
-    ├── DynamicMemoryBasic.cpp                (Scalar & 1D dynamic allocation, new, delete, delete[])
-    ├── Dynamic2DArray.cpp                    (Dynamic 2D array allocation via double pointers & deallocation)
-    ├── DynamicObject.cpp                     (Dynamic memory allocation for objects and arrays of objects)
-    ├── DynamicConstructor.cpp                (Allocating resources dynamically within constructors)
-    ├── MemoryAllocationFailure.cpp           (Allocation failure handling via bad_alloc & nothrow)
-    ├── SelfReferrentialClass.cpp             (Self-referential class structures and node linking)
-    ├── EarlyVsLateBinding.cpp                (Compile-time static binding vs runtime dynamic binding)
-    ├── VirtualFunctions.cpp                  (Virtual functions and runtime polymorphism)
-    ├── PureVirtual.cpp                       (Abstract classes and pure virtual functions)
-    ├── PureVirtual2.cpp                      (Hierarchical pure virtual implementation with employee salary model)
-    ├── PolymorphicArray.cpp                  (Array of base class pointers for polymorphic dispatch)
-    ├── VirtualDestructors.cpp                (Virtual destructors to prevent partial deletion leaks)
-    └── PureVirtualDestructor.cpp             (Abstract class creation via pure virtual destructor)
+    ├── DynamicMemory/                        (Scalar/array allocation, 2D arrays, dynamic objects, bad_alloc)
+    ├── VirtualFunctions/                     (Early vs late binding, virtual functions, dynamic dispatch)
+    ├── AbstractClasses/                      (Pure virtual functions, abstract classes, polymorphic arrays)
+    └── VirtualDestructors/                   (Virtual destructors and pure virtual destructors)
 ```
 
 ## 🎯 Syllabus Concepts Covered
