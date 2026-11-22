@@ -1,19 +1,60 @@
-#include<iostream>
-#include<fstream>
+#include <iostream>
+#include <fstream>
+#include <string>
 
 using namespace std;
-int main(){
-    ofstream f("Test.txt");
-    f<<"Learning FileHandling \nRead function";
-    f.close();
-    char s;
-    ifstream fin("Test.txt");
-    if(fin){
-        while(fin.get(s))      //We can use fin>>stringname; fin>>charname; getline(fin, stringname)   
-        cout<<s;
-        fin.close();
+
+int main() {
+    // Write sample text to file
+    ofstream fout("Test.txt");
+    if (!fout) {
+        cerr << "Error creating Test.txt" << endl;
+        return 1;
     }
-    else{
-        cout<<"\n Operation failed";
+    fout << "Learning FileHandling\nRead function demonstration in C++\nLine 3 of sample file.";
+    fout.close();
+
+    // 1. Reading character-by-character using fin.get(ch)
+    cout << "--- 1. Character-by-character (fin.get) ---" << endl;
+    ifstream finChar("Test.txt");
+    if (finChar) {
+        char ch;
+        while (finChar.get(ch)) {
+            cout << ch;
+        }
+        cout << endl;
+        finChar.close();
+    } else {
+        cerr << "Failed to open file for character reading." << endl;
     }
+
+    // 2. Reading line-by-line using getline(fin, line)
+    cout << "\n--- 2. Line-by-line (getline) ---" << endl;
+    ifstream finLine("Test.txt");
+    if (finLine) {
+        string line;
+        int lineNum = 1;
+        while (getline(finLine, line)) {
+            cout << "Line " << lineNum++ << ": " << line << endl;
+        }
+        finLine.close();
+    } else {
+        cerr << "Failed to open file for line reading." << endl;
+    }
+
+    // 3. Reading word-by-word using formatted extraction (fin >> word)
+    cout << "\n--- 3. Word-by-word (fin >> word) ---" << endl;
+    ifstream finWord("Test.txt");
+    if (finWord) {
+        string word;
+        while (finWord >> word) {
+            cout << "[" << word << "] ";
+        }
+        cout << endl;
+        finWord.close();
+    } else {
+        cerr << "Failed to open file for word reading." << endl;
+    }
+
+    return 0;
 }
