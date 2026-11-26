@@ -10,7 +10,8 @@ CPP-Journey/
 ├── 2. Pointers, Reference Variables, Arrays and String Concepts
 ├── 3. Constructors, Destructors and File Handling
 ├── 4. Operator Overloading, Type Conversion and Inheritance
-└── 5. Dynamic Memory Management and Polymorphism
+├── 5. Dynamic Memory Management and Polymorphism
+└── 6. Exception Handling, Templates and STL
 ```
 
 ## Overview
@@ -20,6 +21,7 @@ CPP-Journey/
 - **Unit 3 — Constructors, Destructors & Files:** Default, parameterized, copy, and dynamic constructors, initializer lists, destructors, and sequential/binary file handling.
 - **Unit 4 — Overloading & Inheritance:** Operator overloading, basic/class type conversions, inheritance types, visibility modes, and virtual base classes.
 - **Unit 5 — Dynamic Memory & Polymorphism:** Heap allocation with `new`/`delete`, 2D dynamic arrays, virtual functions, abstract classes, and virtual destructors.
+- **Unit 6 — Exception Handling, Templates & STL:** `try`/`catch`/`throw`, custom exceptions, function/class templates, and Standard Template Library (containers, iterators, algorithms).
 
 ## 🎯 Goal
 
