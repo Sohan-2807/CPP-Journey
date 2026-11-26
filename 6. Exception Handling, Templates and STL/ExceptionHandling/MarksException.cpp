@@ -12,7 +12,7 @@ int main() {
     int marks[n];
 
     try {
-        cout << "Enter 5 marks: ";
+        cout << "Enter n marks: ";
         for (int i = 0; i < n; i++) {
             cin >> marks[i];
             if (marks[i] < 0 || marks[i] > 100) {
