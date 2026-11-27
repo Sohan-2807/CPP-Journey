@@ -1,3 +1,6 @@
+// Write a program to create a function template
+//  to return max of 2numbers of any type
+
 #include<iostream>
 using namespace std;
 
