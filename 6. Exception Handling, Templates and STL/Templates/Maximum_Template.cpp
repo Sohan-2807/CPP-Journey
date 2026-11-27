@@ -16,5 +16,5 @@ void maxi(T a, T b){
 }
 int main(){
     maxi(2,3);
-    maxi(11,9);
+    maxi(11.5,9.4);
 }
